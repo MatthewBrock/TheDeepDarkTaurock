@@ -11,7 +11,7 @@ public class Main implements ApplicationListener {
     MainCharacter mainCharacter;
     MakeButtons makeButtons;
     @Override
-    public void create() {
+    public void create() {//did this change
         makeButtons = new MakeButtons();
         mainCharacter = new MainCharacter();
         mainCharacter.create();
