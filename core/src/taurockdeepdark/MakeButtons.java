@@ -32,14 +32,14 @@ public class MakeButtons extends Game {
         Gdx.input.setInputProcessor(stage);
         font = new BitmapFont();
         skUpButton = new Skin();
-        taUpButton = new TextureAtlas(Gdx.files.internal("UpButton.pack"));
-        skUpButton.addRegions(taUpButton);
-        tbsUpButton = new TextButton.TextButtonStyle();
+        taUpButton = new TextureAtlas(Gdx.files.internal("UpButton.pack"));//Importing the .pack into a texture atlas that holds multiple images and can be referenced within a TextButtonStyle
+        skUpButton.addRegions(taUpButton);//Applying a texture atlas into a skin
+        tbsUpButton = new TextButton.TextButtonStyle();//TextButtonStyle Holds all the images that will be applied to the TextButton
         tbsUpButton.font = font;
-        tbsUpButton.up = skUpButton.getDrawable("ArrowUp");
+        tbsUpButton.up = skUpButton.getDrawable("ArrowUp");//Setting positions and the image to use when the button is in those positions
         tbsUpButton.down = skUpButton.getDrawable("PressedArrowUp");
         tbsUpButton.checked = skUpButton.getDrawable("ArrowUp");
-        tbUpButton = new TextButton("", tbsUpButton);
+        tbUpButton = new TextButton("", tbsUpButton);//Applying the TextButtonStyle to the TextButton giving it all of its positions and images as well as any text but I didn't use
         tbUpButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         tbUpButton.setPosition(nSWidth * 200 / 1794, nSHeight * 400 / 1080);
         tbUpButton.addListener(new InputListener() {//http://stackoverflow.com/questions/15731944/libgdx-why-is-my-button-not-responding-on-mouseclicks
@@ -66,7 +66,7 @@ public class MakeButtons extends Game {
         tbDownButton = new TextButton("", tbsDownButton);
         tbDownButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         tbDownButton.setPosition(nSWidth * 200 / 1794, 0);
-        tbDownButton.addListener(new InputListener() {//http://stackoverflow.com/questions/15731944/libgdx-why-is-my-button-not-responding-on-mouseclicks
+        tbDownButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MainCharacter.setCharacterRotation(5);
@@ -93,7 +93,7 @@ public class MakeButtons extends Game {
         tbLeftButton = new TextButton("", tbsLeftButton);
         tbLeftButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         tbLeftButton.setPosition(0, nSHeight * 200 / 1080);
-        tbLeftButton.addListener(new InputListener() {//http://stackoverflow.com/questions/15731944/libgdx-why-is-my-button-not-responding-on-mouseclicks
+        tbLeftButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MainCharacter.setCharacterRotation(6);
@@ -118,7 +118,7 @@ public class MakeButtons extends Game {
         tbRightButton = new TextButton("", tbsRightButton);
         tbRightButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         tbRightButton.setPosition(nSWidth * 400 / 1794, nSHeight * 200 / 1080);
-        tbRightButton.addListener(new InputListener() {//http://stackoverflow.com/questions/15731944/libgdx-why-is-my-button-not-responding-on-mouseclicks
+        tbRightButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MainCharacter.setCharacterRotation(7);

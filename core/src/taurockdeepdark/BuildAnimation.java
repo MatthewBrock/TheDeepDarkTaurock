@@ -24,7 +24,7 @@ public class BuildAnimation implements ApplicationListener {
             }
         }
         nCount1 = 0;
-        aAnimation = new Animation(0.17f, trTextureRegion);
+        aAnimation = new Animation(0.17f, trTextureRegion);//Making animation with the array that is the texture region and setting the frame rate
         return aAnimation;
     }
 
