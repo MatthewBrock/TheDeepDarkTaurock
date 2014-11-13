@@ -27,10 +27,10 @@ public class MainCharacter implements ApplicationListener {
     @Override
     public void create() {
         nSHeight = Gdx.graphics.getHeight();
-        nSWidth = Gdx.graphics.getWidth();
-        araWalking = new Animation[8];
-        sbSpriteBatch = new SpriteBatch();
-        tStandDown = new Texture(Gdx.files.internal("BadLuckStandDown.png"));
+        nSWidth = Gdx.graphics.getWidth();//use to make scaling
+        araWalking = new Animation[8];//array of animations
+        sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
+        tStandDown = new Texture(Gdx.files.internal("BadLuckStandDown.png"));//importing all textures
         tStandLeft = new Texture(Gdx.files.internal("BadLuckStandLeft.png"));
         tStandRight = new Texture(Gdx.files.internal("BadLuckStandRight.png"));
         tStandUp = new Texture(Gdx.files.internal("BadLuckStandUp.png"));
@@ -39,7 +39,7 @@ public class MainCharacter implements ApplicationListener {
         tLeftSheet = new Texture(Gdx.files.internal("BadLuckLeft.png"));
         tRightSheet = new Texture(Gdx.files.internal("BadLuckRight.png"));
 
-        araWalking[0] = BuildAnimation.build(tStandUp, 1, 1);
+        araWalking[0] = BuildAnimation.build(tStandUp, 1, 1);//Populating an array of animations using my method BuildAnimation
         araWalking[1] = BuildAnimation.build(tStandDown, 1, 1);
         araWalking[2] = BuildAnimation.build(tStandLeft, 1, 1);
         araWalking[3] = BuildAnimation.build(tStandRight, 1, 1);
@@ -62,10 +62,10 @@ public class MainCharacter implements ApplicationListener {
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);//setting background
         Gdx.gl.glClearColor(1, 1, 1, 1);
-        stateTime += Gdx.graphics.getDeltaTime();
-        sbSpriteBatch.begin();
+        stateTime += Gdx.graphics.getDeltaTime();//Getting a time to select a frame from the animation
+        sbSpriteBatch.begin();//Drawing the animation from the array of animations based on the character rotation
         sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), nSWidth / 2, nSHeight / 2, nSWidth * 110 / 1794, nSHeight * 120 /1080);
         sbSpriteBatch.end();
     }

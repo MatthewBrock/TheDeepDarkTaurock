@@ -16,11 +16,11 @@ public class BuildAnimation implements ApplicationListener {
 
     public static Animation build(Texture tTexture, int nRows, int nCols) {
 
-        TextureRegion[][] tmp = TextureRegion.split(tTexture, tTexture.getWidth() / nCols, tTexture.getHeight() / nRows);
-        trTextureRegion = new TextureRegion[nCols * nRows];
+        TextureRegion[][] tmp = TextureRegion.split(tTexture, tTexture.getWidth() / nCols, tTexture.getHeight() / nRows);//Making an array that holds the region of each image and the image in that region
+        trTextureRegion = new TextureRegion[nCols * nRows];//Making a 1d array with a length that is the same as the number of regions
         for (int i = 0; i < nRows; i++) {
             for (int j = 0; j < nCols; j++) {
-                trTextureRegion[nCount1++] = tmp[i][j];
+                trTextureRegion[nCount1++] = tmp[i][j];//Filling the 1d array with the regions from the 2d array
             }
         }
         nCount1 = 0;
