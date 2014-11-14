@@ -17,7 +17,7 @@ public class MainCharacter implements ApplicationListener {//ButtonScratch
 
 
 
-    static int nCharacterRotation = 1;
+    static int nCharacterRotation = 1,nTest;
     static int  nSHeight, nSWidth;
     Animation[] araWalking;
     Texture tDownSheet, tUpSheet, tLeftSheet, tRightSheet, tStandDown, tStandUp, tStandLeft, tStandRight;
