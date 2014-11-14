@@ -13,11 +13,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 
 //https://github.com/libgdx/libgdx/wiki/2D-Animation
-public class MainCharacter implements ApplicationListener {//ButtonScratch
+public class MainCharacter implements ApplicationListener {
 
 
 
-    static int nCharacterRotation = 1,nTest;
+    static int nCharacterRotation = 1,ntest;
     static int  nSHeight, nSWidth;
     Animation[] araWalking;
     Texture tDownSheet, tUpSheet, tLeftSheet, tRightSheet, tStandDown, tStandUp, tStandLeft, tStandRight;
@@ -26,6 +26,7 @@ public class MainCharacter implements ApplicationListener {//ButtonScratch
 
     @Override
     public void create() {
+        ntest=1;
         nSHeight = Gdx.graphics.getHeight();
         nSWidth = Gdx.graphics.getWidth();//use to make scaling
         araWalking = new Animation[8];//array of animations
