@@ -42,7 +42,7 @@ public class MakeButtons extends Game {
         tbUpButton = new TextButton("", tbsUpButton);//Applying the TextButtonStyle to the TextButton giving it all of its positions and images as well as any text but I didn't use
         tbUpButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         tbUpButton.setPosition(nSWidth * 200 / 1794, nSHeight * 400 / 1080);
-        tbUpButton.addListener(new InputListener() {//http://stackoverflow.com/questions/15731944/libgdx-why-is-my-button-not-responding-on-mouseclicks
+        tbUpButton.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MainCharacter.setCharacterRotation(4);

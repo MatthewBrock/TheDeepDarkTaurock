@@ -65,8 +65,8 @@ public class MainCharacter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);//setting background
         Gdx.gl.glClearColor(1, 1, 1, 1);
         stateTime += Gdx.graphics.getDeltaTime();//Getting a time to select a frame from the animation
-        sbSpriteBatch.begin();//Drawing the animation from the array of animations based on the character rotation
-        sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), nSWidth / 2, nSHeight / 2, nSWidth * 110 / 1794, nSHeight * 120 /1080);
+        sbSpriteBatch.begin();
+        sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), nSWidth / 2, nSHeight / 2, nSWidth * 110 / 1794, nSHeight * 120 /1080);//Drawing the animation from the array of animations based on the character rotation
         sbSpriteBatch.end();
     }
 
