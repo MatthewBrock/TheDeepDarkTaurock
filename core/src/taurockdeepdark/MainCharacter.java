@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 
 //https://github.com/libgdx/libgdx/wiki/2D-Animation
-public class MainCharacter implements ApplicationListener {
+public class MainCharacter implements ApplicationListener {//ButtonScratch
 
 
 
