@@ -8,13 +8,13 @@ import com.badlogic.gdx.Gdx;
  */
 //http://obviam.net/index.php/getting-started-in-android-game-development-with-libgdx-create-a-working-prototype-in-a-day-tutorial-part-1/
 public class Main implements ApplicationListener {
-    MainCharacter mainCharacter;
+   // MainCharacter mainCharacter;
     MakeButtons makeButtons;
     @Override
     public void create() {//did this change
         makeButtons = new MakeButtons();
-        mainCharacter = new MainCharacter();
-        mainCharacter.create();
+       // mainCharacter = new MainCharacter();
+       // mainCharacter.create();
         makeButtons.create();
         System.out.println("Width"+Gdx.graphics.getWidth());
         System.out.println("Height"+Gdx.graphics.getHeight());
@@ -27,7 +27,7 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
-        mainCharacter.render();
+        //mainCharacter.render();
         makeButtons.render();
     }
 
