@@ -20,7 +20,7 @@ public class MainCharacter implements ApplicationListener {
     float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX = 3000, fCharacterY = 500;
     int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0;
     Animation[] araWalking;
-    Texture tDownSheet, tUpSheet, tLeftSheet, tRightSheet, tStandDown, tStandUp, tStandLeft, tStandRight;
+    Texture tDownSheet, tUpSheet, tLeftSheet, tRightSheet, tStandDown, tStandUp, tStandLeft, tStandRight,tTemp;
     SpriteBatch sbSpriteBatch;
     float stateTime;
     float fOldX, fOldY, tileWidth, tileHeight;
@@ -47,24 +47,33 @@ public class MainCharacter implements ApplicationListener {
         araWalking = new Animation[8];//array of animations
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
 
+        for(int i=0;i<8;i++){
+            int k=1;
+            tTemp = new Texture(Gdx.files.internal("BadLuck"+i+".png"));
+            if(i>3){
+                k=3;
+            }
+            araWalking[i] = build(tTemp, 1, k);//Populating an array of animations using my method BuildAnimation
+        }
 
-        tStandDown = new Texture(Gdx.files.internal("BadLuckStandDown.png"));//importing all textures
-        tStandLeft = new Texture(Gdx.files.internal("BadLuckStandLeft.png"));
-        tStandRight = new Texture(Gdx.files.internal("BadLuckStandRight.png"));
-        tStandUp = new Texture(Gdx.files.internal("BadLuckStandUp.png"));
-        tDownSheet = new Texture(Gdx.files.internal("BadLuckDown.png"));
-        tUpSheet = new Texture(Gdx.files.internal("BadLuckUp.png"));
-        tLeftSheet = new Texture(Gdx.files.internal("BadLuckLeft.png"));
-        tRightSheet = new Texture(Gdx.files.internal("BadLuckRight.png"));
 
-        araWalking[0] = build(tStandUp, 1, 1);//Populating an array of animations using my method BuildAnimation
-        araWalking[1] = build(tStandDown, 1, 1);
-        araWalking[2] = build(tStandLeft, 1, 1);
-        araWalking[3] = build(tStandRight, 1, 1);
-        araWalking[4] = build(tUpSheet, 1, 3);
-        araWalking[5] = build(tDownSheet, 1, 3);
-        araWalking[6] = build(tLeftSheet, 1, 3);
-        araWalking[7] = build(tRightSheet, 1, 3);
+//        tStandDown = new Texture(Gdx.files.internal("BadLuckStandDown.png"));//importing all textures
+//        tStandLeft = new Texture(Gdx.files.internal("BadLuckStandLeft.png"));
+//        tStandRight = new Texture(Gdx.files.internal("BadLuckStandRight.png"));
+//        tStandUp = new Texture(Gdx.files.internal("BadLuckStandUp.png"));
+//        tDownSheet = new Texture(Gdx.files.internal("BadLuckDown.png"));
+//        tUpSheet = new Texture(Gdx.files.internal("BadLuckUp.png"));
+//        tLeftSheet = new Texture(Gdx.files.internal("BadLuckLeft.png"));
+//        tRightSheet = new Texture(Gdx.files.internal("BadLuckRight.png"));
+//
+//        araWalking[0] = build(tStandUp, 1, 1);//Populating an array of animations using my method BuildAnimation
+//        araWalking[1] = build(tStandDown, 1, 1);
+//        araWalking[2] = build(tStandLeft, 1, 1);
+//        araWalking[3] = build(tStandRight, 1, 1);
+//        araWalking[4] = build(tUpSheet, 1, 3);
+//        araWalking[5] = build(tDownSheet, 1, 3);
+//        araWalking[6] = build(tLeftSheet, 1, 3);
+//        araWalking[7] = build(tRightSheet, 1, 3);
 
         stateTime = 0f;
     }
