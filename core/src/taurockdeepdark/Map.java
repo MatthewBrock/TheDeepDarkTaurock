@@ -18,23 +18,15 @@ public class Map implements ApplicationListener {
     TiledMap tiledMap;
     OrthographicCamera camera;
     OrthogonalTiledMapRenderer tiledMapRenderer;
-    TiledMapTileLayer[] arclCollisionLayer;
-    int nMapScale = Gdx.graphics.getHeight() * 5 / 1080;
-    int nMapNumber;
-    Map(int nMapNumber_,OrthographicCamera camera_) {
-        nMapNumber = nMapNumber_;
-        camera = camera_;
-
-    }
 
     @Override
     public void create() {
-        tiledMap = new TmxMapLoader().load("Map" + nMapNumber + ".tmx");
-        arclCollisionLayer = new TiledMapTileLayer[tiledMap.getLayers().getCount()];//The collision layer is used to get tile IDs
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, nMapScale);//Set the render to the map and scale it
-        for (int i = 0; i < tiledMap.getLayers().getCount(); i++) {//Put all the layers from the map into the collision layer array
-            arclCollisionLayer[i] = (TiledMapTileLayer) tiledMap.getLayers().get(i);
-        }
+        camera= new  OrthographicCamera();
+        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.update();
+        tiledMap = new TmxMapLoader().load("Map1.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 2);//Set the render to the map and scale it
+
 
     }
 

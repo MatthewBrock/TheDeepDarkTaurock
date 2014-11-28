@@ -3,7 +3,6 @@ package taurockdeepdark.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import taurockdeepdark.Main;
 
 public class HtmlLauncher extends GwtApplication {
 
