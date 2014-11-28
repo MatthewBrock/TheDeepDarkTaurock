@@ -47,6 +47,7 @@ public class MainCharacter implements ApplicationListener {
         araWalking = new Animation[8];//array of animations
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
 
+
         tStandDown = new Texture(Gdx.files.internal("BadLuckStandDown.png"));//importing all textures
         tStandLeft = new Texture(Gdx.files.internal("BadLuckStandLeft.png"));
         tStandRight = new Texture(Gdx.files.internal("BadLuckStandRight.png"));
