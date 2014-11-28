@@ -1,6 +1,6 @@
 package taurockdeepdark;
 
-import com.badlogic.gdx.Game;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -14,18 +14,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
  * Created by Matthew Brock on 30/10/2014.
  */
 //http://stackoverflow.com/questions/21488311/libgdx-how-to-create-a-button
-public class MakeButtons extends Game {
-    Stage stage;
-    BitmapFont font;
-
+public class Buttons implements ApplicationListener {
+    private Stage stage;
+    private BitmapFont font;
+    private MainCharacter mainCharacter;
     private TextButton tbUpButton, tbDownButton, tbLeftButton, tbRightButton;
     private TextButton.TextButtonStyle tbsUpButton, tbsDownButton, tbsLeftButton, tbsRightButton;
     private Skin skUpButton, skDownButton, skLeftButton, skRightButton;
     private TextureAtlas taUpButton, taDownButton, taLeftButton, taRightButton;
-    static int nSHeight, nSWidth;
+    private int nSHeight, nSWidth, nVelocity = 10;
+
+    public void setMainCharacter(MainCharacter mainCharacter_) {
+        mainCharacter = mainCharacter_;
+    }
+
+
 
     @Override
     public void create() {
+
         nSHeight = Gdx.graphics.getHeight();
         nSWidth = Gdx.graphics.getWidth();
         stage = new Stage();
@@ -45,13 +52,15 @@ public class MakeButtons extends Game {
         tbUpButton.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(4);
+                mainCharacter.setCharacterRotation(4);
+                mainCharacter.setCharacterVelocity(0, nVelocity);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(0);
+                mainCharacter.setCharacterRotation(0);
+                mainCharacter.setCharacterVelocity(0, 0);
             }
         });
         stage.addActor(tbUpButton);
@@ -69,15 +78,16 @@ public class MakeButtons extends Game {
         tbDownButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(5);
+                mainCharacter.setCharacterRotation(5);
+                mainCharacter.setCharacterVelocity(0, -nVelocity);
                 return true;
             }
 
 
-
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(1);
+                mainCharacter.setCharacterRotation(1);
+                mainCharacter.setCharacterVelocity(0, 0);
             }
         });
         stage.addActor(tbDownButton);
@@ -96,13 +106,15 @@ public class MakeButtons extends Game {
         tbLeftButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(6);
+                mainCharacter.setCharacterRotation(6);
+                mainCharacter.setCharacterVelocity(-nVelocity, 0);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(2);
+                mainCharacter.setCharacterRotation(2);
+                mainCharacter.setCharacterVelocity(0, 0);
             }
         });
         stage.addActor(tbLeftButton);
@@ -121,13 +133,15 @@ public class MakeButtons extends Game {
         tbRightButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(7);
+                mainCharacter.setCharacterRotation(7);
+                mainCharacter.setCharacterVelocity(nVelocity, 0);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MainCharacter.setCharacterRotation(3);
+                mainCharacter.setCharacterRotation(3);
+                mainCharacter.setCharacterVelocity(0, 0);
             }
         });
         stage.addActor(tbRightButton);
@@ -136,9 +150,27 @@ public class MakeButtons extends Game {
     }
 
     @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
     public void render() {
-        super.render();
         stage.draw();
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void dispose() {
 
     }
 
