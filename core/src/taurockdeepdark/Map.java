@@ -19,16 +19,16 @@ public class Map implements ApplicationListener {
     OrthographicCamera camera;
     OrthogonalTiledMapRenderer tiledMapRenderer;
     TiledMapTileLayer[] arclCollisionLayer;
-    int nMapScale = Gdx.graphics.getHeight() * 5 / 1080;
+    int nMapScale;
     int nMapNumber;
     Map(int nMapNumber_,OrthographicCamera camera_) {
         nMapNumber = nMapNumber_;
         camera = camera_;
-
     }
 
     @Override
     public void create() {
+        nMapScale = Gdx.graphics.getHeight() * 5 / 1080;
         tiledMap = new TmxMapLoader().load("Map" + nMapNumber + ".tmx");
         arclCollisionLayer = new TiledMapTileLayer[tiledMap.getLayers().getCount()];//The collision layer is used to get tile IDs
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, nMapScale);//Set the render to the map and scale it

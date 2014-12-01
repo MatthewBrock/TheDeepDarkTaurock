@@ -15,19 +15,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
  */
 //http://stackoverflow.com/questions/21488311/libgdx-how-to-create-a-button
 public class Buttons implements ApplicationListener {
-    private Stage stage;
-    private BitmapFont font;
-    private MainCharacter mainCharacter;
-    private TextButton tbUpButton, tbDownButton, tbLeftButton, tbRightButton;
-    private TextButton.TextButtonStyle tbsUpButton, tbsDownButton, tbsLeftButton, tbsRightButton;
-    private Skin skUpButton, skDownButton, skLeftButton, skRightButton;
-    private TextureAtlas taUpButton, taDownButton, taLeftButton, taRightButton;
-    private int nSHeight, nSWidth, nVelocity = 10;
+    Stage stage;
+    BitmapFont font;
+    MainCharacter mainCharacter;
+    TextButton tbUpButton, tbDownButton, tbLeftButton, tbRightButton;
+    TextButton.TextButtonStyle tbsUpButton, tbsDownButton, tbsLeftButton, tbsRightButton;
+    Skin skUpButton, skDownButton, skLeftButton, skRightButton;
+    TextureAtlas taUpButton, taDownButton, taLeftButton, taRightButton;
+    int nSHeight, nSWidth, nVelocity = 10;
 
     public void setMainCharacter(MainCharacter mainCharacter_) {
         mainCharacter = mainCharacter_;
     }
-
 
 
     @Override

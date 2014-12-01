@@ -15,9 +15,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 //https://github.com/libgdx/libgdx/wiki/2D-Animation
 public class MainCharacter implements ApplicationListener {
-    private Map[] armMaps;
+    Map[] armMaps;
     OrthographicCamera camera;
-    float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX = 3000, fCharacterY = 500;
+    float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX =  Gdx.graphics.getHeight()*600/1080, fCharacterY = Gdx.graphics.getHeight()*1000/1794;
     int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0;
     Animation[] araWalking;
     Texture tTemp;
@@ -46,7 +46,6 @@ public class MainCharacter implements ApplicationListener {
         nCharacterHeight = nSHeight * 120 / 1080;
         araWalking = new Animation[8];//array of animations
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
-
         for(int i=0;i<8;i++){
             int k=1;
             tTemp = new Texture(Gdx.files.internal("BadLuck"+i+".png"));
@@ -55,7 +54,6 @@ public class MainCharacter implements ApplicationListener {
             }
             araWalking[i] = build(tTemp, 1, k);//Populating an array of animations using my method BuildAnimation
         }
-
         stateTime = 0f;
     }
 
@@ -108,6 +106,10 @@ public class MainCharacter implements ApplicationListener {
 
     @Override
     public void render() {
+
+//        armMaps[0].arclCollisionLayer[nLayerCount].getCell(1, 1)
+//                .getTile().getProperties().containsKey("Block");
+        //System.out.println(armMaps.length);
         camera.position.y = fCharacterY;
         camera.position.x = fCharacterX;
         sbSpriteBatch.setProjectionMatrix(camera.combined);
