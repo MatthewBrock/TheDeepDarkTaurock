@@ -22,7 +22,7 @@ public class Buttons implements ApplicationListener {
     TextButton.TextButtonStyle tbsUpButton, tbsDownButton, tbsLeftButton, tbsRightButton;
     Skin skUpButton, skDownButton, skLeftButton, skRightButton;
     TextureAtlas taUpButton, taDownButton, taLeftButton, taRightButton;
-    int nSHeight, nSWidth, nVelocity = 10;
+    int nSHeight, nSWidth, nVelocityX,nVelocityY;
 
     public void setMainCharacter(MainCharacter mainCharacter_) {
         mainCharacter = mainCharacter_;
@@ -34,6 +34,8 @@ public class Buttons implements ApplicationListener {
 
         nSHeight = Gdx.graphics.getHeight();
         nSWidth = Gdx.graphics.getWidth();
+        nVelocityX = nSWidth*10/ 1794;
+        nVelocityY = nSHeight*10/1080;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         font = new BitmapFont();
@@ -52,7 +54,7 @@ public class Buttons implements ApplicationListener {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 mainCharacter.setCharacterRotation(4);
-                mainCharacter.setCharacterVelocity(0, nVelocity);
+                mainCharacter.setCharacterVelocity(0, nVelocityY);
                 return true;
             }
 
@@ -78,7 +80,7 @@ public class Buttons implements ApplicationListener {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 mainCharacter.setCharacterRotation(5);
-                mainCharacter.setCharacterVelocity(0, -nVelocity);
+                mainCharacter.setCharacterVelocity(0, -nVelocityY);
                 return true;
             }
 
@@ -106,7 +108,7 @@ public class Buttons implements ApplicationListener {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 mainCharacter.setCharacterRotation(6);
-                mainCharacter.setCharacterVelocity(-nVelocity, 0);
+                mainCharacter.setCharacterVelocity(-nVelocityX, 0);
                 return true;
             }
 
@@ -133,7 +135,7 @@ public class Buttons implements ApplicationListener {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 mainCharacter.setCharacterRotation(7);
-                mainCharacter.setCharacterVelocity(nVelocity, 0);
+                mainCharacter.setCharacterVelocity(nVelocityX, 0);
                 return true;
             }
 

@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class MainCharacter implements ApplicationListener {
     Map[] armMaps;
     OrthographicCamera camera;
-    float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX =  Gdx.graphics.getHeight()*600/1080, fCharacterY = Gdx.graphics.getHeight()*1000/1794;
+    float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX, fCharacterY;
     int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0;
     Animation[] araWalking;
     Texture tTemp;
@@ -46,17 +46,21 @@ public class MainCharacter implements ApplicationListener {
         nCharacterHeight = nSHeight * 120 / 1080;
         araWalking = new Animation[8];//array of animations
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
-        for(int i=0;i<8;i++){
-            int k=1;
-            tTemp = new Texture(Gdx.files.internal("BadLuck"+i+".png"));
-            if(i>3){
-                k=3;
+        for (int i = 0; i < 8; i++) {
+            int k = 1;
+            tTemp = new Texture(Gdx.files.internal("BadLuck" + i + ".png"));
+            if (i > 3) {
+                k = 3;
             }
             araWalking[i] = build(tTemp, 1, k);//Populating an array of animations using my method BuildAnimation
         }
         stateTime = 0f;
-    }
+        tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
+        tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
+        fCharacterX = 42*tileWidth-(tileWidth/2);
+        fCharacterY = 7*tileHeight-(tileHeight/2);
 
+    }
 
     public Animation build(Texture tTexture, int nRows, int nCols) {
         TextureRegion[] trTextureRegion;
@@ -90,7 +94,7 @@ public class MainCharacter implements ApplicationListener {
 
     public boolean getTileID(float fX, float fY, int nWidth, String sID) {// this is slightly complicated but its basically grabbing the tile that the character is standing on and getting the ID
         boolean bCollided = false;
-        for (nLayerCount = 0; nLayerCount <armMaps[nCurrentMap].tiledMap.getLayers().getCount()-1; nLayerCount++) {
+        for (nLayerCount = 0; nLayerCount < armMaps[nCurrentMap].tiledMap.getLayers().getCount() - 1; nLayerCount++) {
 
             bCollided = armMaps[nCurrentMap].arclCollisionLayer[nLayerCount].getCell((int) ((fX + nWidth / 4) / tileWidth), (int) (fY / tileHeight))
                     .getTile().getProperties().containsKey(sID);
@@ -106,10 +110,6 @@ public class MainCharacter implements ApplicationListener {
 
     @Override
     public void render() {
-
-//        armMaps[0].arclCollisionLayer[nLayerCount].getCell(1, 1)
-//                .getTile().getProperties().containsKey("Block");
-        //System.out.println(armMaps.length);
         camera.position.y = fCharacterY;
         camera.position.x = fCharacterX;
         sbSpriteBatch.setProjectionMatrix(camera.combined);
@@ -117,10 +117,6 @@ public class MainCharacter implements ApplicationListener {
 
 
 
-
-
-        tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
-        tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
 
         fOldX = fCharacterX;//This is used for resetting the players position if they hit a wall
         fOldY = fCharacterY;
@@ -140,10 +136,8 @@ public class MainCharacter implements ApplicationListener {
         }
 
 
-
-
         if (getTileID(fCharacterX, fCharacterY, nCharacterWidth, "MoveUp")) {//This checks if the character is standing on a door
-            if (nCurrentMap < armMaps.length-1 && !bJustSet) {
+            if (nCurrentMap < armMaps.length - 1 && !bJustSet) {
                 nCurrentMap++;//If the character was standing on a door change the map
                 bJustSet = true;//So it only changes the map one time and not every time render is called
             }
@@ -164,8 +158,6 @@ public class MainCharacter implements ApplicationListener {
         if (getTileID(fCharacterX, fCharacterY, nCharacterWidth, "Walkable")) {
             bJustSet = false;
         }
-
-
 
 
         stateTime += Gdx.graphics.getDeltaTime();//Getting a time to select a frame from the animation
