@@ -17,15 +17,16 @@ public class Main extends Game {
     Map[] armMaps;
 
 
+
     @Override
     public void create() {//did this change
         camera = new OrthographicCamera();
         mainCharacter = new MainCharacter();
         armMaps = new Map[nNumberOfMaps];//Building the array of maps and passing the camera via the constructor
         for (int i = 0; i < nNumberOfMaps; i++) {
-            armMaps[i]= new Map(i,camera);
+            armMaps[i] = new Map(i, camera);
             armMaps[i].create();
-       }
+        }
         buttons = new Buttons();
         buttons.setMainCharacter(mainCharacter);
         mainCharacter.setMaps(armMaps);

@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Matthew Brock on 27/10/2014.
@@ -18,9 +20,10 @@ public class MainCharacter implements ApplicationListener {
     Map[] armMaps;
     OrthographicCamera camera;
     float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX, fCharacterY;
-    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0;
+    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY;
     Animation[] araWalking;
-    Texture tTemp;
+    ArrayList<FireBall> arlFireBalls;
+    Texture tTemp, tFireBall;
     SpriteBatch sbSpriteBatch;
     float stateTime;
     float fOldX, fOldY, tileWidth, tileHeight;
@@ -35,16 +38,24 @@ public class MainCharacter implements ApplicationListener {
         camera = camera_;
     }
 
+    public void makeFireBall() {
+        arlFireBalls.add(new FireBall(tFireBall, fCharacterX, fCharacterY, nCharacterRotationDeg,camera));
+    }
+
 
     @Override
     public void create() {
         nSHeight = Gdx.graphics.getHeight(); //use to make scaling
         nSWidth = Gdx.graphics.getWidth();
+        nVelocityX = nSWidth * 10 / 1794;
+        nVelocityY = nSHeight * 10 / 1080;
         camera.setToOrtho(false, nSWidth, nSHeight);
         camera.update();
         nCharacterWidth = nSWidth * 110 / 1794;
         nCharacterHeight = nSHeight * 120 / 1080;
+        tFireBall = new Texture(Gdx.files.internal("FireBall.png"));
         araWalking = new Animation[8];//array of animations
+        arlFireBalls = new ArrayList<FireBall>();
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
         for (int i = 0; i < 8; i++) {
             int k = 1;
@@ -57,8 +68,8 @@ public class MainCharacter implements ApplicationListener {
         stateTime = 0f;
         tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
         tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
-        fCharacterX = 42*tileWidth-(tileWidth/2);
-        fCharacterY = 7*tileHeight-(tileHeight/2);
+        fCharacterX = 42 * tileWidth - (tileWidth / 2);
+        fCharacterY = 7 * tileHeight - (tileHeight / 2);
 
     }
 
@@ -83,13 +94,14 @@ public class MainCharacter implements ApplicationListener {
 
     }
 
-    public void setCharacterRotation(int nRotation) {
+    public void setCharacterRotation(int nRotation, int nRotationDeg) {
         nCharacterRotation = nRotation;
+        nCharacterRotationDeg = nRotationDeg;
     }
 
-    public void setCharacterVelocity(int VelocityX, int VelocityY) {
-        fCharacterVelocityX = VelocityX;
-        fCharacterVelocityY = VelocityY;
+    public void setCharacterVelocity(int nVelocityX_, int nVelocityY_) {
+        fCharacterVelocityX = nVelocityX_ * nVelocityX;
+        fCharacterVelocityY = nVelocityY_ * nVelocityY;
     }
 
     public boolean getTileID(float fX, float fY, int nWidth, String sID) {// this is slightly complicated but its basically grabbing the tile that the character is standing on and getting the ID
@@ -110,12 +122,12 @@ public class MainCharacter implements ApplicationListener {
 
     @Override
     public void render() {
-        camera.position.y = fCharacterY;
-        camera.position.x = fCharacterX;
+
+//        camera.position.y = fCharacterY;
+//        camera.position.x = fCharacterX;
+        camera.position.set(fCharacterX,fCharacterY,0);
         sbSpriteBatch.setProjectionMatrix(camera.combined);
         camera.update();
-
-
 
 
         fOldX = fCharacterX;//This is used for resetting the players position if they hit a wall
@@ -164,6 +176,10 @@ public class MainCharacter implements ApplicationListener {
         sbSpriteBatch.begin();
         sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), fCharacterX, fCharacterY, nCharacterWidth, nCharacterHeight);//Drawing the animation from the array of animations based on the character rotation
         sbSpriteBatch.end();
+        System.out.println(arlFireBalls.size());
+        for (int j = 0; j < arlFireBalls.size(); j++) {
+            arlFireBalls.get(j).render();
+        }
     }
 
     @Override
