@@ -26,6 +26,7 @@ public class FireBall {
         fVelocityXS = fSWidth * 30 / 1794;
         sbSpriteBatch = new SpriteBatch();//This is bad use the one that already exists
         sFireBall = new Sprite(tFireBall);
+        sFireBall.setOrigin(sFireBall.getWidth()/2,sFireBall.getHeight()/2);
         sFireBall.setRotation(nRotation - 90);
         sFireBall.setPosition(fX, fY);
         if (nRotation == 0) {
