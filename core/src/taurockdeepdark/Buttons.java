@@ -52,14 +52,14 @@ public class Buttons implements ApplicationListener {
         tbUpButton.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(4,180);
+                mainCharacter.setCharacterRotation(4, 180);
                 mainCharacter.setCharacterVelocity(0, 1);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(0,180);
+                mainCharacter.setCharacterRotation(0, 180);
                 mainCharacter.setCharacterVelocity(0, 0);
             }
         });
@@ -78,7 +78,7 @@ public class Buttons implements ApplicationListener {
         tbDownButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(5,0);
+                mainCharacter.setCharacterRotation(5, 0);
                 mainCharacter.setCharacterVelocity(0, -1);
                 return true;
             }
@@ -86,7 +86,7 @@ public class Buttons implements ApplicationListener {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(1,0);
+                mainCharacter.setCharacterRotation(1, 0);
                 mainCharacter.setCharacterVelocity(0, 0);
             }
         });
@@ -106,14 +106,14 @@ public class Buttons implements ApplicationListener {
         tbLeftButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(6,270);
+                mainCharacter.setCharacterRotation(6, 270);
                 mainCharacter.setCharacterVelocity(-1, 0);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(2,270);
+                mainCharacter.setCharacterRotation(2, 270);
                 mainCharacter.setCharacterVelocity(0, 0);
             }
         });
@@ -133,21 +133,21 @@ public class Buttons implements ApplicationListener {
         tbRightButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(7,90);
+                mainCharacter.setCharacterRotation(7, 90);
                 mainCharacter.setCharacterVelocity(1, 0);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.setCharacterRotation(3,90);
+                mainCharacter.setCharacterRotation(3, 90);
                 mainCharacter.setCharacterVelocity(0, 0);
             }
         });
         stage.addActor(tbRightButton);
 
 
-        skFireButton = new Skin();
+        skFireButton = new Skin(); //setting up the button
         taFireButton = new TextureAtlas(Gdx.files.internal("FireButton.pack"));
         skFireButton.addRegions(taFireButton);
         tbsFireButton = new TextButton.TextButtonStyle();
@@ -157,18 +157,12 @@ public class Buttons implements ApplicationListener {
         tbsFireButton.checked = skFireButton.getDrawable("FireButton");
         tbFireButton = new TextButton("", tbsFireButton);
         tbFireButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
-        tbFireButton.setPosition(nSWidth-(nSWidth * 200 / 1794), nSHeight * 200 / 1080);
+        tbFireButton.setPosition(nSWidth - (nSWidth * 200 / 1794), nSHeight * 200 / 1080);
         tbFireButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                mainCharacter.makeFireBall();
-
+                mainCharacter.makeFireBall();//Make a new fireball
                 return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
             }
         });
         stage.addActor(tbFireButton);

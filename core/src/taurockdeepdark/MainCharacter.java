@@ -38,8 +38,8 @@ public class MainCharacter implements ApplicationListener {
         camera = camera_;
     }
 
-    public void makeFireBall() {
-        arlFireBalls.add(new FireBall(tFireBall, fCharacterX+(fCharacterWidth /8), fCharacterY+(fCharacterHeight /8), nCharacterRotationDeg,camera));
+    public void makeFireBall() {//This makes a new fireball
+        arlFireBalls.add(new FireBall(tFireBall, fCharacterX + (fCharacterWidth / 8), fCharacterY + (fCharacterHeight / 8), nCharacterRotationDeg, camera));
     }
 
 
@@ -68,8 +68,8 @@ public class MainCharacter implements ApplicationListener {
         stateTime = 0f;
         tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
         tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
-        fCharacterX = 42 * tileWidth - (tileWidth / 2);
-        fCharacterY = 7 * tileHeight - (tileHeight / 2);
+        fCharacterX = 87 * tileWidth - (tileWidth / 2);
+        fCharacterY = 13 * tileHeight - (tileHeight / 2);
 
     }
 
@@ -122,7 +122,7 @@ public class MainCharacter implements ApplicationListener {
 
     @Override
     public void render() {
-        camera.position.set(fCharacterX,fCharacterY,0);
+        camera.position.set(fCharacterX, fCharacterY, 0);
         sbSpriteBatch.setProjectionMatrix(camera.combined);
         camera.update();
 
@@ -147,6 +147,8 @@ public class MainCharacter implements ApplicationListener {
 
         if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "MoveUp")) {//This checks if the character is standing on a door
             if (nCurrentMap < armMaps.length - 1 && !bJustSet) {
+                fCharacterY += 50 * tileHeight;
+
                 nCurrentMap++;//If the character was standing on a door change the map
                 bJustSet = true;//So it only changes the map one time and not every time render is called
             }
@@ -160,6 +162,7 @@ public class MainCharacter implements ApplicationListener {
         if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "MoveDown")) {//Same as the previous bit but for the door the decreases the map index
             if (nCurrentMap > 0 && !bJustSet) {
                 nCurrentMap--;
+                fCharacterX -= 50 * tileWidth - (tileWidth / 2);
                 bJustSet = true;
             }
         }
@@ -173,7 +176,7 @@ public class MainCharacter implements ApplicationListener {
         sbSpriteBatch.begin();
         sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight);//Drawing the animation from the array of animations based on the character rotation
         sbSpriteBatch.end();
-        for (FireBall arlFireBall : arlFireBalls) {
+        for (FireBall arlFireBall : arlFireBalls) {//This renders all the fireballs
             arlFireBall.render();
         }
     }
