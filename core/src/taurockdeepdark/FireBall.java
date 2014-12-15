@@ -44,8 +44,8 @@ public class FireBall {
 
 
     public void render() {//Set matrix move then render
-        sbSpriteBatch.setProjectionMatrix(camera.combined);
-        sFireBall.translate(fVelocityX, fVelocityY);
+
+        sFireBall.translate(fVelocityX,fVelocityY);
         sbSpriteBatch.begin();
         sFireBall.draw(sbSpriteBatch);
         sbSpriteBatch.end();

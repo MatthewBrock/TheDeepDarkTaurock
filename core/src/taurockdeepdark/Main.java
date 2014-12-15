@@ -3,6 +3,9 @@ package taurockdeepdark;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+
+import java.util.ArrayList;
 
 
 /**
@@ -11,29 +14,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 //http://obviam.net/index.php/getting-started-in-android-game-development-with-libgdx-create-a-working-prototype-in-a-day-tutorial-part-1/
 public class Main extends Game {
     OrthographicCamera camera;
-    MainCharacter mainCharacter;
     Buttons buttons;
-    int nNumberOfMaps = 2;
-    Map[] armMaps;
+
+
 
 
 
     @Override
     public void create() {//did this change
-        camera = new OrthographicCamera();
-        mainCharacter = new MainCharacter();
-        armMaps = new Map[nNumberOfMaps];//Building the array of maps and passing the camera via the constructor
-        for (int i = 0; i < nNumberOfMaps; i++) {
-            armMaps[i] = new Map(i, camera);
-            armMaps[i].create();
-        }
-        buttons = new Buttons();
-        buttons.setMainCharacter(mainCharacter);
-        mainCharacter.setMaps(armMaps);
-        mainCharacter.setCamera(camera);
-        mainCharacter.create();
-        buttons.create();
 
+        buttons = new Buttons();
+        buttons.create();
 
         System.out.println("Width" + Gdx.graphics.getWidth());
         System.out.println("Height" + Gdx.graphics.getHeight());
@@ -47,8 +38,6 @@ public class Main extends Game {
 
     @Override
     public void render() {
-        armMaps[mainCharacter.nCurrentMap].render();
-        mainCharacter.render();
         buttons.render();
     }
 
