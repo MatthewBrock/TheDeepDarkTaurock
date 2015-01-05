@@ -20,14 +20,14 @@ public class MainCharacter implements ApplicationListener {
     Map[] armMaps;
     OrthographicCamera camera;
     float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight;
-    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY;
+    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer;
     Animation[] araWalking;
     ArrayList<FireBall> arlFireBalls;
-    Texture tTemp, tFireBall;
+    Texture tTemp, tFireBall, tShield;
     SpriteBatch sbSpriteBatch;
     float stateTime;
     float fOldX, fOldY, tileWidth, tileHeight;
-    boolean bCollidedX, bCollidedY, bJustSet;
+    boolean bCollidedX, bCollidedY, bJustSet, bShieldR,bShieldT;
 
 
     public void setMaps(Map[] armMaps_) {
@@ -54,6 +54,7 @@ public class MainCharacter implements ApplicationListener {
         fCharacterWidth = nSWidth * 110 / 1794;
         fCharacterHeight = nSHeight * 120 / 1080;
         tFireBall = new Texture(Gdx.files.internal("FireBall.png"));
+        tShield = new Texture(Gdx.files.internal("Shield.png"));
         araWalking = new Animation[8];//array of animations
         arlFireBalls = new ArrayList<FireBall>();
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
@@ -174,6 +175,21 @@ public class MainCharacter implements ApplicationListener {
 
         stateTime += Gdx.graphics.getDeltaTime();//Getting a time to select a frame from the animation
         sbSpriteBatch.begin();
+        if (bShieldR) {
+            if (nShieldTimer <= 100) {
+                sbSpriteBatch.draw(tShield, fCharacterX - fCharacterWidth / 8, fCharacterY - fCharacterHeight / 8, nSWidth * 135 / 1794, nSHeight * 150 / 1080);
+                bShieldT = true;
+            } else {
+                bShieldT = false;
+            }
+            System.out.println(nShieldTimer);
+            nShieldTimer++;
+            if (nShieldTimer == 400) {
+                bShieldR = false;
+            }
+        } else {
+            nShieldTimer = 0;
+        }
         sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight);//Drawing the animation from the array of animations based on the character rotation
         sbSpriteBatch.end();
         for (FireBall arlFireBall : arlFireBalls) {//This renders all the fireballs
