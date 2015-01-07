@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 //http://stackoverflow.com/questions/21488311/libgdx-how-to-create-a-button
 public class Controls implements ApplicationListener {
     Stage stage;
+    Texture tX;
     BitmapFont font;
     MainCharacter mainCharacter;
     TextButton tbFireButton, tbShieldButton;
@@ -26,6 +28,8 @@ public class Controls implements ApplicationListener {
     Skin skFireButton, skShieldButton;
     TextureAtlas taFireButton, taShieldButton;
     int nSHeight, nSWidth, nCharacterRot, nCharacterRotDeg;
+    SpriteBatch sbBatch;
+
 
     Touchpad touchpad;
     Touchpad.TouchpadStyle touchpadStyle;
@@ -47,6 +51,8 @@ public class Controls implements ApplicationListener {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         font = new BitmapFont();
+        sbBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
+        tX = new Texture(Gdx.files.internal("X.png"));
 //        skUpButton = new Skin();
 //        taUpButton = new TextureAtlas(Gdx.files.internal("UpButton.pack"));//Importing the .pack into a texture atlas that holds multiple images and can be referenced within a TextButtonStyle
 //        skUpButton.addRegions(taUpButton);//Applying a texture atlas into a skin
@@ -165,6 +171,8 @@ public class Controls implements ApplicationListener {
         touchpadStyle.background = touchBackground;
         touchpadStyle.knob = touchKnob;
         touchpad = new Touchpad(10, touchpadStyle);
+
+        touchpad.setSize(nSWidth *350 / 1794, nSHeight * 350 / 1080);
         stage.addActor(touchpad);
 
         skFireButton = new Skin(); //setting up the button
@@ -251,7 +259,13 @@ public class Controls implements ApplicationListener {
         }
         mainCharacter.setCharacterRotation(nCharacterRot, nCharacterRotDeg);
 
+
         stage.draw();
+        sbBatch.begin();
+        if (mainCharacter.nShieldTimer > 100 && mainCharacter.nShieldTimer < 400) {
+            sbBatch.draw(tX, nSWidth - (nSWidth * 400 / 1794), (nSHeight * 400 / 1080), nSWidth * 200 / 1794, nSHeight * 200 / 1080);
+        }
+        sbBatch.end();
 
     }
 
