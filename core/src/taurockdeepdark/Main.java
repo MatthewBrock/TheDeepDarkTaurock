@@ -50,7 +50,6 @@ public class Main extends Game {
         armMaps[mainCharacter.nCurrentMap].render();
         mainCharacter.render();
         controls.render();
-//        touchPad.render();
     }
 
     @Override

@@ -23,10 +23,10 @@ public class Controls implements ApplicationListener {
     Texture tX;
     BitmapFont font;
     MainCharacter mainCharacter;
-    TextButton tbFireButton, tbShieldButton;
-    TextButton.TextButtonStyle tbsFireButton, tbsShieldButton;
-    Skin skFireButton, skShieldButton;
-    TextureAtlas taFireButton, taShieldButton;
+    TextButton tbFireButton, tbShieldButton, tbSwordButton;
+    TextButton.TextButtonStyle tbsFireButton, tbsShieldButton, tbsSwordButton;
+    Skin skFireButton, skShieldButton, skSwordButton;
+    TextureAtlas taFireButton, taShieldButton, taSwordButton;
     int nSHeight, nSWidth, nCharacterRot, nCharacterRotDeg;
     SpriteBatch sbBatch;
 
@@ -171,8 +171,7 @@ public class Controls implements ApplicationListener {
         touchpadStyle.background = touchBackground;
         touchpadStyle.knob = touchKnob;
         touchpad = new Touchpad(10, touchpadStyle);
-
-        touchpad.setSize(nSWidth *350 / 1794, nSHeight * 350 / 1080);
+        touchpad.setSize(nSWidth * 350 / 1794, nSHeight * 350 / 1080);
         stage.addActor(touchpad);
 
         skFireButton = new Skin(); //setting up the button
@@ -185,7 +184,7 @@ public class Controls implements ApplicationListener {
         tbsFireButton.checked = skFireButton.getDrawable("FireButton");
         tbFireButton = new TextButton("", tbsFireButton);
         tbFireButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
-        tbFireButton.setPosition(nSWidth - (nSWidth * 200 / 1794), nSHeight * 200 / 1080);
+        tbFireButton.setPosition(nSWidth - (nSWidth * 400 / 1794), 0);
         tbFireButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -206,16 +205,36 @@ public class Controls implements ApplicationListener {
         tbsShieldButton.checked = skShieldButton.getDrawable("shieldButtonUp");
         tbShieldButton = new TextButton("", tbsShieldButton);
         tbShieldButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
-        tbShieldButton.setPosition(nSWidth - (nSWidth * 400 / 1794), (nSHeight * 400 / 1080));
+        tbShieldButton.setPosition(nSWidth - (nSWidth * 300 / 1794), (nSHeight * 200 / 1080));
         tbShieldButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 mainCharacter.bShieldR = true;
-
                 return true;
             }
         });
         stage.addActor(tbShieldButton);
+
+
+        skSwordButton = new Skin(); //setting up the button
+        taSwordButton = new TextureAtlas(Gdx.files.internal("SwordButton.pack"));
+        skSwordButton.addRegions(taSwordButton);
+        tbsSwordButton = new TextButton.TextButtonStyle();
+        tbsSwordButton.font = font;
+        tbsSwordButton.up = skSwordButton.getDrawable("SwordButtonUp");
+        tbsSwordButton.down = skSwordButton.getDrawable("SwordButtonDown");
+        tbsSwordButton.checked = skSwordButton.getDrawable("SwordButtonUp");
+        tbSwordButton = new TextButton("", tbsSwordButton);
+        tbSwordButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
+        tbSwordButton.setPosition(nSWidth - (nSWidth * 200 / 1794), 0);
+        tbSwordButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                mainCharacter.bSword=true;
+                return true;
+            }
+        });
+        stage.addActor(tbSwordButton);
 
 
     }
@@ -263,7 +282,7 @@ public class Controls implements ApplicationListener {
         stage.draw();
         sbBatch.begin();
         if (mainCharacter.nShieldTimer > 100 && mainCharacter.nShieldTimer < 400) {
-            sbBatch.draw(tX, nSWidth - (nSWidth * 400 / 1794), (nSHeight * 400 / 1080), nSWidth * 200 / 1794, nSHeight * 200 / 1080);
+            sbBatch.draw(tX, nSWidth - (nSWidth * 300 / 1794), (nSHeight * 200 / 1080), nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         }
         sbBatch.end();
 
