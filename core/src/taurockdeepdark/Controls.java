@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -19,13 +20,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 //http://stackoverflow.com/questions/21488311/libgdx-how-to-create-a-button
 public class Controls implements ApplicationListener {
     Stage stage;
+    Texture tX;
     BitmapFont font;
     MainCharacter mainCharacter;
-    TextButton tbFireButton, tbShieldButton;
-    TextButton.TextButtonStyle tbsFireButton, tbsShieldButton;
-    Skin skFireButton, skShieldButton;
-    TextureAtlas taFireButton, taShieldButton;
+    TextButton tbFireButton, tbShieldButton, tbSwordButton;
+    TextButton.TextButtonStyle tbsFireButton, tbsShieldButton, tbsSwordButton;
+    Skin skFireButton, skShieldButton, skSwordButton;
+    TextureAtlas taFireButton, taShieldButton, taSwordButton;
     int nSHeight, nSWidth, nCharacterRot, nCharacterRotDeg;
+    SpriteBatch sbBatch;
+
 
     Touchpad touchpad;
     Touchpad.TouchpadStyle touchpadStyle;
@@ -47,6 +51,8 @@ public class Controls implements ApplicationListener {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         font = new BitmapFont();
+        sbBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
+        tX = new Texture(Gdx.files.internal("X.png"));
 //        skUpButton = new Skin();
 //        taUpButton = new TextureAtlas(Gdx.files.internal("UpButton.pack"));//Importing the .pack into a texture atlas that holds multiple images and can be referenced within a TextButtonStyle
 //        skUpButton.addRegions(taUpButton);//Applying a texture atlas into a skin
@@ -165,6 +171,7 @@ public class Controls implements ApplicationListener {
         touchpadStyle.background = touchBackground;
         touchpadStyle.knob = touchKnob;
         touchpad = new Touchpad(10, touchpadStyle);
+        touchpad.setSize(nSWidth * 350 / 1794, nSHeight * 350 / 1080);
         stage.addActor(touchpad);
 
         skFireButton = new Skin(); //setting up the button
@@ -177,7 +184,7 @@ public class Controls implements ApplicationListener {
         tbsFireButton.checked = skFireButton.getDrawable("FireButton");
         tbFireButton = new TextButton("", tbsFireButton);
         tbFireButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
-        tbFireButton.setPosition(nSWidth - (nSWidth * 200 / 1794), nSHeight * 200 / 1080);
+        tbFireButton.setPosition(nSWidth - (nSWidth * 400 / 1794), 0);
         tbFireButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -198,16 +205,36 @@ public class Controls implements ApplicationListener {
         tbsShieldButton.checked = skShieldButton.getDrawable("shieldButtonUp");
         tbShieldButton = new TextButton("", tbsShieldButton);
         tbShieldButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
-        tbShieldButton.setPosition(nSWidth - (nSWidth * 400 / 1794), (nSHeight * 400 / 1080));
+        tbShieldButton.setPosition(nSWidth - (nSWidth * 300 / 1794), (nSHeight * 200 / 1080));
         tbShieldButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 mainCharacter.bShieldR = true;
-
                 return true;
             }
         });
         stage.addActor(tbShieldButton);
+
+
+        skSwordButton = new Skin(); //setting up the button
+        taSwordButton = new TextureAtlas(Gdx.files.internal("SwordButton.pack"));
+        skSwordButton.addRegions(taSwordButton);
+        tbsSwordButton = new TextButton.TextButtonStyle();
+        tbsSwordButton.font = font;
+        tbsSwordButton.up = skSwordButton.getDrawable("SwordButtonUp");
+        tbsSwordButton.down = skSwordButton.getDrawable("SwordButtonDown");
+        tbsSwordButton.checked = skSwordButton.getDrawable("SwordButtonUp");
+        tbSwordButton = new TextButton("", tbsSwordButton);
+        tbSwordButton.setSize(nSWidth * 200 / 1794, nSHeight * 200 / 1080);
+        tbSwordButton.setPosition(nSWidth - (nSWidth * 200 / 1794), 0);
+        tbSwordButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                mainCharacter.bSword=true;
+                return true;
+            }
+        });
+        stage.addActor(tbSwordButton);
 
 
     }
@@ -251,7 +278,13 @@ public class Controls implements ApplicationListener {
         }
         mainCharacter.setCharacterRotation(nCharacterRot, nCharacterRotDeg);
 
+
         stage.draw();
+        sbBatch.begin();
+        if (mainCharacter.nShieldTimer > 100 && mainCharacter.nShieldTimer < 400) {
+            sbBatch.draw(tX, nSWidth - (nSWidth * 300 / 1794), (nSHeight * 200 / 1080), nSWidth * 200 / 1794, nSHeight * 200 / 1080);
+        }
+        sbBatch.end();
 
     }
 

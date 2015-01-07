@@ -17,8 +17,6 @@ public class Main extends Game {
     int nNumberOfMaps = 2;
     Map[] armMaps;
 
-
-
     @Override
     public void create() {//did this change
         camera = new OrthographicCamera();
@@ -52,7 +50,6 @@ public class Main extends Game {
         armMaps[mainCharacter.nCurrentMap].render();
         mainCharacter.render();
         controls.render();
-//        touchPad.render();
     }
 
     @Override
