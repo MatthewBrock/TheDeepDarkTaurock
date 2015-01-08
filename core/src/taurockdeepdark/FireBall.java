@@ -24,7 +24,7 @@ public class FireBall {
         fVelocityXS = fSWidth * 30 / 1794;
         sbSpriteBatch = new SpriteBatch();//This is bad use the one that already exists
         sFireBall = new Sprite(tFireBall);
-        sFireBall.setOrigin(sFireBall.getWidth()/2,sFireBall.getHeight()/2);
+        sFireBall.setOrigin(sFireBall.getWidth() / 2, sFireBall.getHeight() / 2);
         sFireBall.setRotation(nRotation - 90);
         sFireBall.setPosition(fX, fY);
         if (nRotation == 0) {//Set velocity based on rotation
@@ -42,6 +42,14 @@ public class FireBall {
         }
     }
 
+    public boolean bounds(float tileWidth, float tileHeight) {
+
+        if (sFireBall.getX() > 300 * tileWidth || sFireBall.getX() < 0 || sFireBall.getY() > 300 * tileHeight || sFireBall.getY() < 0) {
+            return true;
+        }
+        return false;
+
+    }
 
     public void render() {//Set matrix move then render
         sbSpriteBatch.setProjectionMatrix(camera.combined);
