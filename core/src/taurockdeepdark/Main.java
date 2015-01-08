@@ -14,6 +14,7 @@ public class Main extends Game {
 //    TouchPad touchPad;
     MainCharacter mainCharacter;
     Controls controls;
+    Enemy ghost;
     int nNumberOfMaps = 2;
     Map[] armMaps;
 
@@ -32,6 +33,12 @@ public class Main extends Game {
         mainCharacter.setMaps(armMaps);
         mainCharacter.setCamera(camera);
         mainCharacter.create();
+        ghost = new Enemy();
+        ghost.setMainCharacter(mainCharacter);
+        ghost.setMaps(armMaps);
+        ghost.setCamera(camera);
+
+        ghost.create();
         controls.create();
 
 
@@ -50,6 +57,10 @@ public class Main extends Game {
         armMaps[mainCharacter.nCurrentMap].render();
         mainCharacter.render();
         controls.render();
+        ghost.setFx(mainCharacter.getCharacterX());
+        ghost.setFy(mainCharacter.getCharacterY());
+        ghost.setSword(mainCharacter.getSword());
+        ghost.render();
 //        touchPad.render();
     }
 

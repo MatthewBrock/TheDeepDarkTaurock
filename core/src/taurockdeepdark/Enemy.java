@@ -23,7 +23,7 @@ public class Enemy implements ApplicationListener {
     float stateTime;
     float  fGhostX, fGhostY, fX, fY;
     float fOldX, fOldY, tileWidth, tileHeight, fDx, fDy, fPyth, fFireX, fFireY, fPythFire;
-    boolean bCollidedX, bCollidedY, bChase = false;
+    boolean bCollidedX, bCollidedY, bChase = false, bSword=false;
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;
@@ -106,6 +106,9 @@ public class Enemy implements ApplicationListener {
     public void setFx(float characterFx) {
         fX = characterFx;
     }
+    public void setSword(boolean _bSword) {
+        bSword = _bSword;
+    }
 
 
     @Override
@@ -119,8 +122,10 @@ public class Enemy implements ApplicationListener {
 
 
         fPyth = (float) Math.abs(Math.sqrt(Math.pow(fDx, 2) + Math.pow(fDy, 2)));
-
-        if (fPyth < 300) {
+if(bSword&&fPyth<100){
+    System.out.println("get Stabbed");
+}
+        else if (fPyth < 300) {
             bChase = true;
         } else if (fPyth > 1000) {
             bChase = false;
@@ -180,5 +185,6 @@ public class Enemy implements ApplicationListener {
     public void dispose() {
 
     }
+
 
 }
