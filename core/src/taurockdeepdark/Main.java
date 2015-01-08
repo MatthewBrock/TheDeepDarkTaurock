@@ -16,6 +16,7 @@ public class Main extends Game {
     Controls controls;
     int nNumberOfMaps = 2;
     Map[] armMaps;
+    Enemy ghost;
 
     @Override
     public void create() {//did this change
@@ -32,6 +33,11 @@ public class Main extends Game {
         mainCharacter.setMaps(armMaps);
         mainCharacter.setCamera(camera);
         mainCharacter.create();
+        ghost = new Enemy();
+        ghost.setMainCharacter(mainCharacter);
+        ghost.setMaps(armMaps);
+        ghost.setCamera(camera);
+        ghost.create();
         controls.create();
 
 
@@ -50,6 +56,9 @@ public class Main extends Game {
         armMaps[mainCharacter.nCurrentMap].render();
         mainCharacter.render();
         controls.render();
+        ghost.setFy(mainCharacter.getCharacterY());
+        ghost.setFx(mainCharacter.getCharacterX());
+        ghost.render();
 //        touchPad.render();
     }
 

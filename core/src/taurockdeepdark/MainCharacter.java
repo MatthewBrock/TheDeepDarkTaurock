@@ -29,6 +29,12 @@ public class MainCharacter implements ApplicationListener {
     float fOldX, fOldY, tileWidth, tileHeight;
     boolean bCollidedX, bCollidedY, bJustSet, bShieldR,bShieldT;
 
+    public float getCharacterY() {
+        return fCharacterY;
+    }
+    public float getCharacterX() {
+        return fCharacterX;
+    }
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;
@@ -127,6 +133,8 @@ public class MainCharacter implements ApplicationListener {
         sbSpriteBatch.setProjectionMatrix(camera.combined);
         camera.update();
 
+        //System.out.println(((fCharacterX+tileWidth / 2)/tileWidth) + " is x" ); // used to check the tile of the character
+        //System.out.println(((fCharacterY+tileHeight / 2)/tileHeight) + " is Y" );
 
         fOldX = fCharacterX;//This is used for resetting the players position if they hit a wall
         fOldY = fCharacterY;
