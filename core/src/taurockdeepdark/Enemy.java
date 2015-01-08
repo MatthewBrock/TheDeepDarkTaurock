@@ -15,15 +15,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Enemy implements ApplicationListener {
     Map[] armMaps;
     MainCharacter mainCharacter;
-    int nSHeight, nSWidth, nCharacterRotation = 1,  nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY;
+    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nHealth=4;
     OrthographicCamera camera;
     Texture tTemp;
     Animation[] araWalking;
     SpriteBatch sbSpriteBatch;
     float stateTime;
-    float  fGhostX, fGhostY, fX, fY;
+    float fGhostX, fGhostY, fX, fY;
     float fOldX, fOldY, tileWidth, tileHeight, fDx, fDy, fPyth, fFireX, fFireY, fPythFire;
-    boolean bCollidedX, bCollidedY, bChase = false, bSword=false;
+    boolean bCollidedX, bCollidedY, bChase = false, bSword = false, bShield = false;
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;
@@ -59,7 +59,7 @@ public class Enemy implements ApplicationListener {
         tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
         tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
         fGhostX = 78 * tileWidth - (tileWidth / 2); // spawning location
-        fGhostY = 39* tileHeight - (tileHeight / 2);
+        fGhostY = 39 * tileHeight - (tileHeight / 2);
     }
 
     public Animation build(Texture tTexture, int nRows, int nCols) {
@@ -106,8 +106,13 @@ public class Enemy implements ApplicationListener {
     public void setFx(float characterFx) {
         fX = characterFx;
     }
+
     public void setSword(boolean _bSword) {
         bSword = _bSword;
+    }
+
+    public void setShield(boolean _bShield) {
+        bSword = _bShield;
     }
 
 
@@ -122,10 +127,21 @@ public class Enemy implements ApplicationListener {
 
 
         fPyth = (float) Math.abs(Math.sqrt(Math.pow(fDx, 2) + Math.pow(fDy, 2)));
-if(bSword&&fPyth<100){
-    System.out.println("get Stabbed");
-}
-        else if (fPyth < 300) {
+        if (bSword && fPyth < 100) { //this checks the hit test of the sword
+            System.out.println("get Stabbed");
+            bSword = false;
+        }
+        else if(fPyth<50&&!bShield&&!bSword){ // hit test player
+          //  nHealth--;
+            System.out.println("player hit " + nHealth);
+          //  fGhostX = fOldX;
+           // fGhostY = fOldY;
+            if(nHealth<=0){
+                System.out.println("dead");
+                //System.exit(0);
+            }
+        }
+        else if (fPyth < 300) {//  sees if you are close enough to chase
             bChase = true;
         } else if (fPyth > 1000) {
             bChase = false;
@@ -143,10 +159,8 @@ if(bSword&&fPyth<100){
             if (bCollidedX) {//If it touched a tile with the block ID reset the position
                 fGhostX = fOldX;
             }
-
             fGhostY = (float) (0.98 * (fGhostY - fY) + fY - 1.5);//This is the same as the previous bit but for the Y direction
             bCollidedY = getTileID(fGhostX, fGhostY, nCharacterWidth, "Block");
-
             if (bCollidedY) {
                 fGhostY = fOldY;
             }

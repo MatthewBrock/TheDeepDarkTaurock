@@ -40,6 +40,9 @@ public class MainCharacter implements ApplicationListener {
     public boolean getSword(){
         return bSword;
     }
+    public boolean getShield(){
+        return bShieldR;
+    }
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;

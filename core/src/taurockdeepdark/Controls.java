@@ -234,6 +234,7 @@ public class Controls implements ApplicationListener {
                 return true;
             }
         });
+
         stage.addActor(tbSwordButton);
 
 

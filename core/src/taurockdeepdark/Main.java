@@ -60,6 +60,7 @@ public class Main extends Game {
         ghost.setFx(mainCharacter.getCharacterX());
         ghost.setFy(mainCharacter.getCharacterY());
         ghost.setSword(mainCharacter.getSword());
+        ghost.setShield(mainCharacter.getShield());
         ghost.render();
 //        touchPad.render();
     }
