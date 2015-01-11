@@ -25,7 +25,7 @@ public class Enemy implements ApplicationListener {
     float stateTime;
     float fGhostX, fGhostY, fX, fY;
     float fOldX, fOldY, tileWidth, tileHeight, fDx, fDy, fPyth, fFireX, fFireY, fPythFire;
-    boolean bCollidedX, bCollidedY, bChase = false, bSword = false, bShield = false, bLive=true;
+    boolean bCollidedX, bCollidedY, bChase = false, bSword = false, bShield = false, bLive = true;
     int nGhostHealth = 10;
 
 
@@ -199,13 +199,15 @@ public class Enemy implements ApplicationListener {
         sbSpriteBatch.begin();
         sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), fGhostX, fGhostY, nCharacterWidth, nCharacterHeight);//Drawing the animation from the array of animations based on the character rotation
         sbSpriteBatch.end();
-    if(nGhostHealth==0){
-        bLive=false;
+        if (nGhostHealth == 0) {
+            bLive = false;
+        }
     }
-    }
-    public boolean getLive(){
+
+    public boolean getLive() {
         return bLive;
     }
+
     @Override
     public void pause() {
 

@@ -21,9 +21,10 @@ public class MainCharacter implements ApplicationListener {
     Map[] armMaps;
     OrthographicCamera camera;
     float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight;
-    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer,nSwordTimer;
+    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer,nSwordTimer,nHp=5,nMp=5,nMpTimer;
     Animation[] araWalking;
     ArrayList<FireBall> arlFireBalls;
+    ArrayList<Enemy>arlEnemy;
     Texture tTemp, tFireBall, tShield, tSword;
     Sprite spSword;
     SpriteBatch sbSpriteBatch;
@@ -31,6 +32,18 @@ public class MainCharacter implements ApplicationListener {
     float fOldX, fOldY, tileWidth, tileHeight;
     boolean bCollidedX, bCollidedY, bJustSet, bShieldR, bShieldT, bSword;
 
+    public float getCharacterY() {
+        return fCharacterY;
+    }
+    public float getCharacterX() {
+        return fCharacterX;
+    }
+    public boolean getSword(){
+        return bSword;
+    }
+    public boolean getShield(){
+        return bShieldR;
+    }
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;
@@ -42,6 +55,20 @@ public class MainCharacter implements ApplicationListener {
 
     public void makeFireBall() {//This makes a new fireball
         arlFireBalls.add(new FireBall(tFireBall, fCharacterX + (fCharacterWidth / 8), fCharacterY + (fCharacterHeight / 8), nCharacterRotationDeg, camera));
+    }
+    public ArrayList<FireBall> getFireballs() {
+        return arlFireBalls;
+    }
+
+    public void setCharacter(String sName){//takes the name of the chosen character then builds the animation for that character
+        for (int i = 0; i < 8; i++) {
+            int k = 1;
+            tTemp = new Texture(Gdx.files.internal(sName + i + ".png"));
+            if (i > 3) {
+                k = 3;
+            }
+            araWalking[i] = build(tTemp, 1, k);//Populating an array of animations using my method BuildAnimation
+        }
     }
 
 
@@ -64,14 +91,6 @@ public class MainCharacter implements ApplicationListener {
         araWalking = new Animation[8];//array of animations
         arlFireBalls = new ArrayList<FireBall>();
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
-        for (int i = 0; i < 8; i++) {
-            int k = 1;
-            tTemp = new Texture(Gdx.files.internal("BadLuck" + i + ".png"));
-            if (i > 3) {
-                k = 3;
-            }
-            araWalking[i] = build(tTemp, 1, k);//Populating an array of animations using my method BuildAnimation
-        }
         stateTime = 0f;
         tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
         tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
@@ -131,8 +150,18 @@ public class MainCharacter implements ApplicationListener {
     public void render() {
         camera.position.set(fCharacterX, fCharacterY, 0);
         sbSpriteBatch.setProjectionMatrix(camera.combined);
+        if(nMp<5){// used to regenerate mp at a set rate
+            nMpTimer++;
+            if(nMpTimer==75){
+                nMp+=1;
+                nMpTimer=0;
+            }
+        }
+
         camera.update();
 
+        //System.out.println(((fCharacterX+tileWidth / 2)/tileWidth) + " is x" ); // used to check the tile of the character
+        //System.out.println(((fCharacterY+tileHeight / 2)/tileHeight) + " is Y" );
 
         fOldX = fCharacterX;//This is used for resetting the players position if they hit a wall
         fOldY = fCharacterY;
