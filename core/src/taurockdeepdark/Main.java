@@ -2,74 +2,46 @@ package taurockdeepdark;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 
 
 /**
- * Created by Matthew Brock on 30/10/2014.
+ * Created by Matthew Brock on 07/01/2015.
  */
-//http://obviam.net/index.php/getting-started-in-android-game-development-with-libgdx-create-a-working-prototype-in-a-day-tutorial-part-1/
-public class Main extends Game {
-    OrthographicCamera camera;
-//    TouchPad touchPad;
-    MainCharacter mainCharacter;
-    Controls controls;
-    int nNumberOfMaps = 2;
-    Map[] armMaps;
+public class Main extends Game {//http://stackoverflow.com/questions/24551605/libgdx-input-processor-not-working-with-group
+    GameScreen gameScreen;
+    MainMenu mainMenu;
+    ScreenControl screenControl;
+    CharacterSelect characterSelect;
+    int nScreen;
 
     @Override
-    public void create() {//did this change
-        camera = new OrthographicCamera();
-//        touchPad = new TouchPad();
-        mainCharacter = new MainCharacter();
-        armMaps = new Map[nNumberOfMaps];//Building the array of maps and passing the camera via the constructor
-        for (int i = 0; i < nNumberOfMaps; i++) {
-            armMaps[i] = new Map(i, camera);
-            armMaps[i].create();
-        }
-        controls = new Controls();
-        controls.setMainCharacter(mainCharacter);
-        mainCharacter.setMaps(armMaps);
-        mainCharacter.setCamera(camera);
-        mainCharacter.create();
-        controls.create();
-
-
-        System.out.println("Width" + Gdx.graphics.getWidth());
-        System.out.println("Height" + Gdx.graphics.getHeight());
-    }
-
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
+    public void create() {
+        Gdx.input.setCatchBackKey(true);// lets you use the back button without it just taking you out of the game
+        screenControl = new ScreenControl();
+        gameScreen = new GameScreen();
+        mainMenu = new MainMenu();
+        characterSelect = new CharacterSelect();
+        screenControl.create();
+        gameScreen.create();
+        mainMenu.create();
+        characterSelect.create();
+        characterSelect.setScreenControl(screenControl);// screen control is just used to set the screen that is being rendered
+        mainMenu.setScreenControl(screenControl);
+        gameScreen.controls.setScreenControl(screenControl);
+        characterSelect.setGameScreen(gameScreen);
     }
 
     @Override
     public void render() {
-        armMaps[mainCharacter.nCurrentMap].render();
-        mainCharacter.render();
-        controls.render();
+        nScreen = screenControl.nScreen;
+        if (nScreen == 1) {
+            mainMenu.render();
+        } else if (nScreen == 2) {
+            characterSelect.render();
+        } else if (nScreen == 3) {
+            gameScreen.render();
+        }
     }
-
-    @Override
-    public void pause() {
-        super.pause();
-
-
-    }
-
-    @Override
-    public void resume() {
-        super.resume();
-
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-    }
-
-
 }
+
+

@@ -21,7 +21,7 @@ public class MainCharacter implements ApplicationListener {
     Map[] armMaps;
     OrthographicCamera camera;
     float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight;
-    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer,nSwordTimer;
+    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer,nSwordTimer,nHp=5,nMp=5,nMpTimer;
     Animation[] araWalking;
     ArrayList<FireBall> arlFireBalls;
     Texture tTemp, tFireBall, tShield, tSword;
@@ -43,6 +43,17 @@ public class MainCharacter implements ApplicationListener {
     public void makeFireBall() {//This makes a new fireball
         arlFireBalls.add(new FireBall(tFireBall, fCharacterX + (fCharacterWidth / 8), fCharacterY + (fCharacterHeight / 8), nCharacterRotationDeg, camera));
     }
+    public void setCharacter(String sName){//takes the name of the chosen character then builds the animation for that character
+        for (int i = 0; i < 8; i++) {
+            int k = 1;
+            tTemp = new Texture(Gdx.files.internal(sName + i + ".png"));
+            if (i > 3) {
+                k = 3;
+            }
+            araWalking[i] = build(tTemp, 1, k);//Populating an array of animations using my method BuildAnimation
+        }
+    }
+
 
 
     @Override
@@ -58,20 +69,18 @@ public class MainCharacter implements ApplicationListener {
         tFireBall = new Texture(Gdx.files.internal("FireBall.png"));
         tShield = new Texture(Gdx.files.internal("Shield.png"));
         tSword = new Texture(Gdx.files.internal("FireSword.png"));
+
+
+
         spSword = new Sprite(tSword);
         spSword.setSize(nSWidth * 40 / 1794, nSHeight * 175 / 1080);
         spSword.setOrigin(spSword.getWidth() / 2, 0);
         araWalking = new Animation[8];//array of animations
         arlFireBalls = new ArrayList<FireBall>();
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
-        for (int i = 0; i < 8; i++) {
-            int k = 1;
-            tTemp = new Texture(Gdx.files.internal("BadLuck" + i + ".png"));
-            if (i > 3) {
-                k = 3;
-            }
-            araWalking[i] = build(tTemp, 1, k);//Populating an array of animations using my method BuildAnimation
-        }
+
+
+
         stateTime = 0f;
         tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
         tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
@@ -132,6 +141,14 @@ public class MainCharacter implements ApplicationListener {
         camera.position.set(fCharacterX, fCharacterY, 0);
         sbSpriteBatch.setProjectionMatrix(camera.combined);
         camera.update();
+        if(nMp<5){// used to regenerate mp at a set rate
+            nMpTimer++;
+            if(nMpTimer==75){
+                nMp+=1;
+                nMpTimer=0;
+            }
+        }
+
 
 
         fOldX = fCharacterX;//This is used for resetting the players position if they hit a wall
@@ -181,18 +198,19 @@ public class MainCharacter implements ApplicationListener {
 
         stateTime += Gdx.graphics.getDeltaTime();//Getting a time to select a frame from the animation
         sbSpriteBatch.begin();
-        if (bShieldR) {
-            if (nShieldTimer <= 100) {
+
+        if (bShieldR) {// this uses a timer to put the shield on then also count the cool down after
+            if (nShieldTimer <= 100) {//Shows shield for 100 counts
                 sbSpriteBatch.draw(tShield, fCharacterX - fCharacterWidth / 8, fCharacterY - fCharacterHeight / 8, nSWidth * 135 / 1794, nSHeight * 150 / 1080);
-                bShieldT = true;
+                bShieldT = true;// used to know if the shield is actually up
             } else {
                 bShieldT = false;
             }
             nShieldTimer++;
-            if (nShieldTimer == 400) {
+            if (nShieldTimer == 400) {// if the cool down is done reset
                 bShieldR = false;
             }
-        } else {
+        } else {//if the shields not being rendered set the counter to 0
             nShieldTimer = 0;
         }
         if(bSword) {
@@ -206,7 +224,7 @@ public class MainCharacter implements ApplicationListener {
 
         spSword.setRotation(nCharacterRotationDeg + 180);
 
-        if (nCharacterRotationDeg == 90) {
+        if (nCharacterRotationDeg == 90) {// this part positions the sword and puts it under or over top of the character
             sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight);//Drawing the animation from the array of animations based on the character rotation
             spSword.setPosition(fCharacterX, fCharacterY + fCharacterHeight / 4);
             if (bSword) {
@@ -235,11 +253,14 @@ public class MainCharacter implements ApplicationListener {
         }
 
 
+
+
+
         sbSpriteBatch.end();
         for (int i = 0; i < arlFireBalls.size(); i++) {//This renders all the fireballs
             arlFireBalls.get(i).render();
-            if (arlFireBalls.get(i).bounds(tileWidth, tileHeight)) {
-                arlFireBalls.remove(i);
+            if (arlFireBalls.get(i).bounds(tileWidth, tileHeight)) {// check if the fire ball is out of the map
+                arlFireBalls.remove(i);// remove it
             }
         }
     }

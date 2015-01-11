@@ -44,7 +44,7 @@ public class FireBall {
 
     public boolean bounds(float tileWidth, float tileHeight) {
 
-        if (sFireBall.getX() > 300 * tileWidth || sFireBall.getX() < 0 || sFireBall.getY() > 300 * tileHeight || sFireBall.getY() < 0) {
+        if (sFireBall.getX() > 300 * tileWidth || sFireBall.getX() < 0 || sFireBall.getY() > 300 * tileHeight || sFireBall.getY() < 0) {// checks if the fire ball is past the map
             return true;
         }
         return false;
