@@ -15,6 +15,7 @@ public class FireBall {
     float fVelocityX, fVelocityY, fVelocityYS, fVelocityXS, fSHeight, fSWidth;
     OrthographicCamera camera;
     SpriteBatch sbSpriteBatch;
+    float fX, fY;
 
     FireBall(Texture tFireBall, float fX, float fY, int nRotation, OrthographicCamera camera_) {
         camera = camera_;
@@ -27,6 +28,8 @@ public class FireBall {
         sFireBall.setOrigin(sFireBall.getWidth() / 2, sFireBall.getHeight() / 2);
         sFireBall.setRotation(nRotation - 90);
         sFireBall.setPosition(fX, fY);
+        this.fX = fX;
+        this.fY = fY;
         if (nRotation == 0) {//Set velocity based on rotation
             fVelocityX = 0;
             fVelocityY = -fVelocityYS;
@@ -57,6 +60,15 @@ public class FireBall {
         sbSpriteBatch.begin();
         sFireBall.draw(sbSpriteBatch);
         sbSpriteBatch.end();
+    }
+    public float getfX() {
+        this.fX = sFireBall.getX();
+        return fX;
+    }
+
+    public float getfY() {
+        this.fY= sFireBall.getY();
+        return fY;
     }
 
 }

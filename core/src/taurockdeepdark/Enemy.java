@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Max on 2015-01-07.
@@ -15,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Enemy implements ApplicationListener {
     Map[] armMaps;
     MainCharacter mainCharacter;
-    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nHealth=4;
+    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterWidth, nCharacterHeight, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nHealth = 4;
     OrthographicCamera camera;
     Texture tTemp;
     Animation[] araWalking;
@@ -23,7 +25,9 @@ public class Enemy implements ApplicationListener {
     float stateTime;
     float fGhostX, fGhostY, fX, fY;
     float fOldX, fOldY, tileWidth, tileHeight, fDx, fDy, fPyth, fFireX, fFireY, fPythFire;
-    boolean bCollidedX, bCollidedY, bChase = false, bSword = false, bShield = false;
+    boolean bCollidedX, bCollidedY, bChase = false, bSword = false, bShield = false, bLive=true;
+    int nGhostHealth = 10;
+
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;
@@ -36,6 +40,7 @@ public class Enemy implements ApplicationListener {
     public void setMainCharacter(MainCharacter mainCharacter_) {
         mainCharacter = mainCharacter_;
     }
+
 
     @Override
     public void create() {
@@ -125,23 +130,35 @@ public class Enemy implements ApplicationListener {
         fDx = fGhostX - fX;           /// this determines whether the main character is close enough to chase or not
         fDy = fGhostY - fY;
 
+        ArrayList<FireBall> fireBalls = mainCharacter.getFireballs();
+        for (int i = 0; i < fireBalls.size(); i++) {
+            fFireX = fireBalls.get(i).getfX();
+            fFireY = fireBalls.get(i).getfY();
+            fPythFire = (float) Math.abs(Math.sqrt(Math.pow(fGhostX - fFireX, 2) + Math.pow(fGhostY - fFireY, 2)));
+            //System.out.println(fFireX + " is X");
+            //System.out.println(fFireY + " is Y");
+            if (fPythFire <= 50) {
+                nGhostHealth = 0;
+                System.out.println("dead");
 
+            }
+            //System.exit(0);
+        }
         fPyth = (float) Math.abs(Math.sqrt(Math.pow(fDx, 2) + Math.pow(fDy, 2)));
         if (bSword && fPyth < 100) { //this checks the hit test of the sword
-            System.out.println("get Stabbed");
+            nGhostHealth--;
+            System.out.println("get Stabbed HEALTH IS: " + nGhostHealth);
             bSword = false;
-        }
-        else if(fPyth<50&&!bShield&&!bSword){ // hit test player
-          //  nHealth--;
+        } else if (fPyth < 50 && !bShield && !bSword) { // hit test player
+            //  nHealth--;
             System.out.println("player hit " + nHealth);
-          //  fGhostX = fOldX;
-           // fGhostY = fOldY;
-            if(nHealth<=0){
+            //  fGhostX = fOldX;
+            // fGhostY = fOldY;
+            if (nHealth <= 0) {
                 System.out.println("dead");
                 //System.exit(0);
             }
-        }
-        else if (fPyth < 300) {//  sees if you are close enough to chase
+        } else if (fPyth < 300) {//  sees if you are close enough to chase
             bChase = true;
         } else if (fPyth > 1000) {
             bChase = false;
@@ -182,9 +199,13 @@ public class Enemy implements ApplicationListener {
         sbSpriteBatch.begin();
         sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), fGhostX, fGhostY, nCharacterWidth, nCharacterHeight);//Drawing the animation from the array of animations based on the character rotation
         sbSpriteBatch.end();
-
+    if(nGhostHealth==0){
+        bLive=false;
     }
-
+    }
+    public boolean getLive(){
+        return bLive;
+    }
     @Override
     public void pause() {
 

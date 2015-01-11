@@ -24,6 +24,7 @@ public class MainCharacter implements ApplicationListener {
     int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer,nSwordTimer;
     Animation[] araWalking;
     ArrayList<FireBall> arlFireBalls;
+    ArrayList<Enemy>arlEnemy;
     Texture tTemp, tFireBall, tShield, tSword;
     Sprite spSword;
     SpriteBatch sbSpriteBatch;
@@ -54,6 +55,9 @@ public class MainCharacter implements ApplicationListener {
 
     public void makeFireBall() {//This makes a new fireball
         arlFireBalls.add(new FireBall(tFireBall, fCharacterX + (fCharacterWidth / 8), fCharacterY + (fCharacterHeight / 8), nCharacterRotationDeg, camera));
+    }
+    public ArrayList<FireBall> getFireballs() {
+        return arlFireBalls;
     }
 
 

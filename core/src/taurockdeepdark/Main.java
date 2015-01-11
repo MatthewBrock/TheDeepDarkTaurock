@@ -11,12 +11,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 //http://obviam.net/index.php/getting-started-in-android-game-development-with-libgdx-create-a-working-prototype-in-a-day-tutorial-part-1/
 public class Main extends Game {
     OrthographicCamera camera;
-//    TouchPad touchPad;
+    //    TouchPad touchPad;
     MainCharacter mainCharacter;
     Controls controls;
     Enemy ghost;
     int nNumberOfMaps = 2;
     Map[] armMaps;
+    boolean bLiving;
 
     @Override
     public void create() {//did this change
@@ -57,11 +58,19 @@ public class Main extends Game {
         armMaps[mainCharacter.nCurrentMap].render();
         mainCharacter.render();
         controls.render();
+
+
         ghost.setFx(mainCharacter.getCharacterX());
         ghost.setFy(mainCharacter.getCharacterY());
         ghost.setSword(mainCharacter.getSword());
         ghost.setShield(mainCharacter.getShield());
-        ghost.render();
+        if(bLiving){
+            ghost.render();
+        }
+
+        bLiving = ghost.getLive();
+
+
 //        touchPad.render();
     }
 
