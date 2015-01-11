@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
  * Created by Matthew Brock on 30/10/2014.
  */
 //http://obviam.net/index.php/getting-started-in-android-game-development-with-libgdx-create-a-working-prototype-in-a-day-tutorial-part-1/
-public class Main extends Game {
+public class GameScreen extends Game {
     OrthographicCamera camera;
     //    TouchPad touchPad;
     MainCharacter mainCharacter;
