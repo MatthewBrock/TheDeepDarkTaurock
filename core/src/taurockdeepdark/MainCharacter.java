@@ -24,7 +24,6 @@ public class MainCharacter implements ApplicationListener {
     int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer,nSwordTimer;
     Animation[] araWalking;
     ArrayList<FireBall> arlFireBalls;
-    ArrayList<Enemy>arlEnemy;
     Texture tTemp, tFireBall, tShield, tSword;
     Sprite spSword;
     SpriteBatch sbSpriteBatch;
@@ -32,18 +31,6 @@ public class MainCharacter implements ApplicationListener {
     float fOldX, fOldY, tileWidth, tileHeight;
     boolean bCollidedX, bCollidedY, bJustSet, bShieldR, bShieldT, bSword;
 
-    public float getCharacterY() {
-        return fCharacterY;
-    }
-    public float getCharacterX() {
-        return fCharacterX;
-    }
-    public boolean getSword(){
-        return bSword;
-    }
-    public boolean getShield(){
-        return bShieldR;
-    }
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;
@@ -55,9 +42,6 @@ public class MainCharacter implements ApplicationListener {
 
     public void makeFireBall() {//This makes a new fireball
         arlFireBalls.add(new FireBall(tFireBall, fCharacterX + (fCharacterWidth / 8), fCharacterY + (fCharacterHeight / 8), nCharacterRotationDeg, camera));
-    }
-    public ArrayList<FireBall> getFireballs() {
-        return arlFireBalls;
     }
 
 
@@ -149,8 +133,6 @@ public class MainCharacter implements ApplicationListener {
         sbSpriteBatch.setProjectionMatrix(camera.combined);
         camera.update();
 
-        //System.out.println(((fCharacterX+tileWidth / 2)/tileWidth) + " is x" ); // used to check the tile of the character
-        //System.out.println(((fCharacterY+tileHeight / 2)/tileHeight) + " is Y" );
 
         fOldX = fCharacterX;//This is used for resetting the players position if they hit a wall
         fOldY = fCharacterY;
