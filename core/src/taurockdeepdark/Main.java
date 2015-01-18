@@ -2,6 +2,8 @@ package taurockdeepdark;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+
 
 
 /**
@@ -12,10 +14,13 @@ public class Main extends Game {//http://stackoverflow.com/questions/24551605/li
     MainMenu mainMenu;
     ScreenControl screenControl;
     CharacterSelect characterSelect;
+    Music BGsong;
+
     int nScreen;
 
     @Override
     public void create() {
+        BGsong = Gdx.audio.newMusic(Gdx.files.internal("DungeonCraw.mp3"));
         Gdx.input.setCatchBackKey(true);// lets you use the back button without it just taking you out of the game
         screenControl = new ScreenControl();
         gameScreen = new GameScreen();
@@ -29,6 +34,9 @@ public class Main extends Game {//http://stackoverflow.com/questions/24551605/li
         mainMenu.setScreenControl(screenControl);
         gameScreen.controls.setScreenControl(screenControl);
         characterSelect.setGameScreen(gameScreen);
+        BGsong.setVolume(1f);
+        BGsong.setLooping(true);
+        BGsong.play();
     }
 
     @Override

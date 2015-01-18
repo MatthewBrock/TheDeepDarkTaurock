@@ -63,8 +63,8 @@ public class Enemy implements ApplicationListener {
         stateTime = 0f;
         tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
         tileHeight = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileHeight());
-        fGhostX = 78 * tileWidth - (tileWidth / 2); // spawning location
-        fGhostY = 39 * tileHeight - (tileHeight / 2);
+        fGhostX = 50 * tileWidth - (tileWidth / 2); // spawning location
+        fGhostY = 13 * tileHeight - (tileHeight / 2);
     }
 
     public Animation build(Texture tTexture, int nRows, int nCols) {

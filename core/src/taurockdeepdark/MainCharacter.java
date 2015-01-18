@@ -19,6 +19,7 @@ import java.util.ArrayList;
 //https://github.com/libgdx/libgdx/wiki/2D-Animation
 public class MainCharacter implements ApplicationListener {
     Map[] armMaps;
+    Controls controls;
     OrthographicCamera camera;
     float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight;
     int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 0, nVelocityX, nVelocityY, nShieldTimer,nSwordTimer,nHp=5,nMp=5,nMpTimer;
@@ -44,6 +45,12 @@ public class MainCharacter implements ApplicationListener {
     public boolean getShield(){
         return bShieldR;
     }
+
+    public void setControls(Controls controls_){
+        controls = controls_;
+
+    }
+
 
     public void setMaps(Map[] armMaps_) {
         armMaps = armMaps_;
@@ -132,7 +139,8 @@ public class MainCharacter implements ApplicationListener {
 
     public boolean getTileID(float fX, float fY, float nWidth, String sID) {// this is slightly complicated but its basically grabbing the tile that the character is standing on and getting the ID
         boolean bCollided = false;
-        for (nLayerCount = 0; nLayerCount < armMaps[nCurrentMap].tiledMap.getLayers().getCount() - 1; nLayerCount++) {
+        for (nLayerCount = 0; nLayerCount < armMaps[nCurrentMap].tiledMap.getLayers().getCount()-1 ; nLayerCount++) {
+            System.out.println(nLayerCount);
 
             bCollided = armMaps[nCurrentMap].arclCollisionLayer[nLayerCount].getCell((int) ((fX + nWidth / 4) / tileWidth), (int) (fY / tileHeight))
                     .getTile().getProperties().containsKey(sID);
@@ -183,8 +191,8 @@ public class MainCharacter implements ApplicationListener {
 
         if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "MoveUp")) {//This checks if the character is standing on a door
             if (nCurrentMap < armMaps.length - 1 && !bJustSet) {
+                controls.bTransition=true;
                 fCharacterY += 50 * tileHeight;
-
                 nCurrentMap++;//If the character was standing on a door change the map
                 bJustSet = true;//So it only changes the map one time and not every time render is called
             }
@@ -197,6 +205,7 @@ public class MainCharacter implements ApplicationListener {
 
         if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "MoveDown")) {//Same as the previous bit but for the door the decreases the map index
             if (nCurrentMap > 0 && !bJustSet) {
+                controls.bTransition=true;
                 nCurrentMap--;
                 fCharacterX -= 50 * tileWidth - (tileWidth / 2);
                 bJustSet = true;

@@ -3,6 +3,7 @@ package taurockdeepdark;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class Controls implements ApplicationListener {
     ScreenControl screenControl;
     Stage stage;
-    Texture tX, tBlueGem, tRedGem;
+    Texture tX, tBlueGem, tRedGem,tTransition;
     Animation aRedGem, aBlueGem;
     BitmapFont font;
     MainCharacter mainCharacter;
@@ -32,7 +33,8 @@ public class Controls implements ApplicationListener {
     TextButton.TextButtonStyle tbsFireButton, tbsShieldButton, tbsSwordButton;
     Skin skFireButton, skShieldButton, skSwordButton;
     TextureAtlas taFireButton, taShieldButton, taSwordButton;
-    int nSHeight, nSWidth, nCharacterRot, nCharacterRotDeg;
+    int nSHeight, nSWidth, nCharacterRot, nCharacterRotDeg,nTransitionTimer;
+    boolean bTransition;
     SpriteBatch sbBatch;
     float stateTime = 0f;
     Touchpad touchpad;
@@ -40,6 +42,8 @@ public class Controls implements ApplicationListener {
     Skin touchpadSkin;
     Drawable touchBackground;
     Drawable touchKnob;
+    Sound FireballSound;
+    Sound SwordSound;
 
     public void setScreenControl(ScreenControl screenControl_) {
         screenControl = screenControl_;
@@ -83,6 +87,9 @@ public class Controls implements ApplicationListener {
         tX = new Texture(Gdx.files.internal("X.png"));
         tRedGem = new Texture(Gdx.files.internal("RedGem.png"));
         tBlueGem = new Texture(Gdx.files.internal("BlueGem.png"));
+        tTransition = new Texture(Gdx.files.internal("Loading.jpeg"));
+        FireballSound = Gdx.audio.newSound(Gdx.files.internal("FireBallSound.mp3"));
+        SwordSound = Gdx.audio.newSound(Gdx.files.internal("SwordSound.mp3"));
         aRedGem = build(tRedGem, 1, 6);//Making gem animations
         aBlueGem = build(tBlueGem, 1, 6);
 //        skUpButton = new Skin();
@@ -193,7 +200,6 @@ public class Controls implements ApplicationListener {
 //        });
 //        stage.addActor(tbRightButton);
 
-
         touchpadSkin = new Skin();//making a touchpad which is kinda like an analog stick
         touchpadSkin.add("touchBackground", new Texture(Gdx.files.internal("touchpadback.png")));//setting the background on the touchpad
         touchpadSkin.add("touchKnob", new Texture(Gdx.files.internal("touchpadknob.png")));//setting the knob
@@ -222,6 +228,7 @@ public class Controls implements ApplicationListener {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (mainCharacter.nMp > 0) {//if you still have a mana gem
                     mainCharacter.makeFireBall();//Make a new fireball
+                    FireballSound.play();
                     mainCharacter.nMp -= 1;
                 }
                 return true;
@@ -265,6 +272,7 @@ public class Controls implements ApplicationListener {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 mainCharacter.bSword = true;
+                SwordSound.play();
                 return true;
             }
         });
@@ -353,6 +361,18 @@ public class Controls implements ApplicationListener {
         if (mainCharacter.nShieldTimer > 100 && mainCharacter.nShieldTimer < 400) {
             sbBatch.draw(tX, nSWidth - (nSWidth * 300 / 1794), (nSHeight * 200 / 1080), nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         }
+        if(bTransition){
+            sbBatch.draw(tTransition,0,0,nSWidth,nSHeight);
+            nTransitionTimer++;
+            if(nTransitionTimer==200){
+                bTransition=false;
+                nTransitionTimer=0;
+            }
+        }
+
+
+
+
         sbBatch.end();
 
     }

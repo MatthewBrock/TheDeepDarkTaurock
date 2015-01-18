@@ -24,7 +24,6 @@ public class GameScreen extends Game {
         armMaps[mainCharacter.nCurrentMap].render();
         mainCharacter.render();
         controls.render();
-
         ghost.setFx(mainCharacter.getCharacterX());
         ghost.setFy(mainCharacter.getCharacterY());
         ghost.setSword(mainCharacter.getSword());
@@ -53,6 +52,7 @@ public class GameScreen extends Game {
         controls.setMainCharacter(mainCharacter);
         mainCharacter.setMaps(armMaps);
         mainCharacter.setCamera(camera);
+        mainCharacter.setControls(controls);
         mainCharacter.create();
         ghost = new Enemy();
         ghost.setMainCharacter(mainCharacter);
