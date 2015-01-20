@@ -25,7 +25,7 @@ public class MainMenu extends Game {
     Texture tBack;
     Stage stage;
     BitmapFont font;
-    TextButton tbNewGame,tbLoadGame,tbOptions,tbCredits;
+    TextButton tbNewGame,tbLoadGame,tbCredits;
     TextButton.TextButtonStyle tbsNewGame;
     Skin skNewGame;
     TextureAtlas taNewGame;
@@ -102,25 +102,14 @@ public class MainMenu extends Game {
             }
         });
         stage.addActor(tbLoadGame);
-        tbOptions = new TextButton("Options", tbsNewGame);
-        tbOptions.setSize(nSWidth * 500 / 1794, nSHeight * 100 / 1080);
-        tbOptions.setPosition(nSWidth / 2 - tbNewGame.getWidth() / 2, nSHeight / 2- nSHeight * 250 / 1080);
-        tbOptions.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                return true;
-            }
-        });
-        stage.addActor(tbOptions);
 
         tbCredits = new TextButton("Credits", tbsNewGame);
         tbCredits.setSize(nSWidth * 500 / 1794, nSHeight * 100 / 1080);
-        tbCredits.setPosition(nSWidth / 2 - tbNewGame.getWidth() / 2, nSHeight / 2- nSHeight * 400 / 1080);
+        tbCredits.setPosition(nSWidth / 2 - tbNewGame.getWidth() / 2,  nSHeight / 2- nSHeight * 250 / 1080);
         tbCredits.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
+                screenControl.setnScreen(4);
                 return true;
             }
         });

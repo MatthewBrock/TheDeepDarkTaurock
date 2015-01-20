@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
 
-
 /**
  * Created by Matthew Brock on 07/01/2015.
  */
@@ -13,6 +12,7 @@ public class Main extends Game {//http://stackoverflow.com/questions/24551605/li
     Loader loader;
     GameScreen gameScreen;
     MainMenu mainMenu;
+    Credits credits;
     ScreenControl screenControl;
     CharacterSelect characterSelect;
     Music BGsong;
@@ -24,11 +24,14 @@ public class Main extends Game {//http://stackoverflow.com/questions/24551605/li
         BGsong = Gdx.audio.newMusic(Gdx.files.internal("DungeonCraw.mp3"));
         Gdx.input.setCatchBackKey(true);// lets you use the back button without it just taking you out of the game
         loader = new Loader();
+        credits = new Credits();
         screenControl = new ScreenControl();
         gameScreen = new GameScreen();
         mainMenu = new MainMenu();
         characterSelect = new CharacterSelect();
         screenControl.create();
+        credits.create();
+        credits.setScreenControl(screenControl);
         gameScreen.setLoader(loader);
         gameScreen.create();
         mainMenu.create();
@@ -45,7 +48,7 @@ public class Main extends Game {//http://stackoverflow.com/questions/24551605/li
 
     @Override
     public void render() {
-        if(!gameScreen.mainCharacter.bBGsong){
+        if (!gameScreen.mainCharacter.bBGsong) {
             BGsong.stop();
         }
         nScreen = screenControl.nScreen;
@@ -55,6 +58,8 @@ public class Main extends Game {//http://stackoverflow.com/questions/24551605/li
             characterSelect.render();
         } else if (nScreen == 3) {
             gameScreen.render();
+        } else if (nScreen == 4) {
+            credits.render();
         }
     }
 }
