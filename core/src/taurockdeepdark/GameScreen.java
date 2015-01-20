@@ -10,11 +10,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
  */
 //http://obviam.net/index.php/getting-started-in-android-game-development-with-libgdx-create-a-working-prototype-in-a-day-tutorial-part-1/
 public class GameScreen extends Game {
+    Loader loader;
     OrthographicCamera camera;
     MainCharacter mainCharacter;
     Enemy ghost;
     Controls controls;
-    int nNumberOfMaps = 2;
+    int nNumberOfMaps = 5;
     Map[] armMaps;
     boolean bLiving;
 
@@ -33,6 +34,9 @@ public class GameScreen extends Game {
         }
         bLiving = ghost.getLive();
 
+    }
+    public void setLoader(Loader loader_){
+        loader = loader_;
     }
 
 
@@ -53,7 +57,10 @@ public class GameScreen extends Game {
         mainCharacter.setMaps(armMaps);
         mainCharacter.setCamera(camera);
         mainCharacter.setControls(controls);
+        mainCharacter.setloader(loader);
         mainCharacter.create();
+        loader.create();
+        loader.setMainCharacter(mainCharacter);
         ghost = new Enemy();
         ghost.setMainCharacter(mainCharacter);
         ghost.setMaps(armMaps);

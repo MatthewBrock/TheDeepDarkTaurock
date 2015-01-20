@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
  * Created by Matthew Brock on 07/01/2015.
  */
 public class MainMenu extends Game {
+    Loader loader;
     ScreenControl screenControl;
     SpriteBatch sbBatch;
     Texture tBack;
@@ -43,9 +44,13 @@ public class MainMenu extends Game {
     public void setScreenControl(ScreenControl screenControl_){
         screenControl = screenControl_;
     }
+    public void setLoader(Loader loader_){
+        loader = loader_;
+    }
 
     @Override
     public void create() {
+        loader = new Loader();
         nSHeight = Gdx.graphics.getHeight();
         nSWidth = Gdx.graphics.getWidth();
         sbBatch = new SpriteBatch();
@@ -68,17 +73,17 @@ public class MainMenu extends Game {
         tbsNewGame = new TextButton.TextButtonStyle();
         tbsNewGame.font = font;
         tbsNewGame.up = skNewGame.getDrawable("MenuButtonUp");
-        tbsNewGame.down = skNewGame.getDrawable("MenuButtonDown");
-        tbsNewGame.checked = skNewGame.getDrawable("MenuButtonUp");
+        tbsNewGame.down = skNewGame.getDrawable("MenuButtonUp");
+        //tbsNewGame.checked = skNewGame.getDrawable("MenuButtonUp");
         tbNewGame = new TextButton("New Game", tbsNewGame);
         tbNewGame.setSize(nSWidth * 500 / 1794, nSHeight * 100 / 1080);
         tbNewGame.setPosition(nSWidth / 2 - tbNewGame.getWidth() / 2, nSHeight / 2+nSHeight * 50 / 1080);
         tbNewGame.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-              //  if(screenControl.nScreen==1) {
+
                     screenControl.setnScreen(2);
-               // }
+
                 return true;
             }
         });
@@ -91,23 +96,19 @@ public class MainMenu extends Game {
         tbLoadGame.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(screenControl.nScreen==1) {
-
-                }
+                loader.load();
+                screenControl.setnScreen(3);
                 return true;
             }
         });
         stage.addActor(tbLoadGame);
-
         tbOptions = new TextButton("Options", tbsNewGame);
         tbOptions.setSize(nSWidth * 500 / 1794, nSHeight * 100 / 1080);
         tbOptions.setPosition(nSWidth / 2 - tbNewGame.getWidth() / 2, nSHeight / 2- nSHeight * 250 / 1080);
         tbOptions.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(screenControl.nScreen==1) {
 
-                }
                 return true;
             }
         });
@@ -119,9 +120,7 @@ public class MainMenu extends Game {
         tbCredits.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(screenControl.nScreen==1) {
 
-                }
                 return true;
             }
         });

@@ -25,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class Controls implements ApplicationListener {
     ScreenControl screenControl;
     Stage stage;
-    Texture tX, tBlueGem, tRedGem,tTransition;
+    Texture tX, tBlueGem, tRedGem, tTransition;
     Animation aRedGem, aBlueGem;
     BitmapFont font;
     MainCharacter mainCharacter;
@@ -33,7 +33,7 @@ public class Controls implements ApplicationListener {
     TextButton.TextButtonStyle tbsFireButton, tbsShieldButton, tbsSwordButton;
     Skin skFireButton, skShieldButton, skSwordButton;
     TextureAtlas taFireButton, taShieldButton, taSwordButton;
-    int nSHeight, nSWidth, nCharacterRot, nCharacterRotDeg,nTransitionTimer;
+    int nSHeight, nSWidth, nCharacterRot, nCharacterRotDeg, nTransitionTimer;
     boolean bTransition;
     SpriteBatch sbBatch;
     float stateTime = 0f;
@@ -73,10 +73,11 @@ public class Controls implements ApplicationListener {
     public void create() {
         nSHeight = Gdx.graphics.getHeight();
         nSWidth = Gdx.graphics.getWidth();
-        stage = new Stage(){// This lets us use the android back button
+        stage = new Stage() {// This lets us use the android back button
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.BACK) {
+
                     screenControl.setnScreen(1);
                 }
                 return super.keyDown(keyCode);
@@ -289,22 +290,25 @@ public class Controls implements ApplicationListener {
     @Override
     public void render() {
         Gdx.input.setInputProcessor(stage);
-        if (touchpad.getKnobPercentX() > .75) {//The touchpad give you the percentage away from the center in the x and y direction I use this to find which direction it is being pulled
-            nCharacterRot = 7;
-            nCharacterRotDeg = 90;
-            mainCharacter.setCharacterVelocity(1, 0);
-        } else if (touchpad.getKnobPercentX() < -.75) {
-            nCharacterRot = 6;
-            nCharacterRotDeg = 270;
-            mainCharacter.setCharacterVelocity(-1, 0);
-        } else if (touchpad.getKnobPercentY() > .75) {
-            nCharacterRot = 4;
-            nCharacterRotDeg = 180;
-            mainCharacter.setCharacterVelocity(0, 1);
-        } else if (touchpad.getKnobPercentY() < -.75) {
-            nCharacterRot = 5;
-            nCharacterRotDeg = 0;
-            mainCharacter.setCharacterVelocity(0, -1);
+        mainCharacter.loader.save();
+        if (!bTransition) {
+            if (touchpad.getKnobPercentX() > .75) {//The touchpad give you the percentage away from the center in the x and y direction I use this to find which direction it is being pulled
+                nCharacterRot = 7;
+                nCharacterRotDeg = 90;
+                mainCharacter.setCharacterVelocity(1, 0);
+            } else if (touchpad.getKnobPercentX() < -.75) {
+                nCharacterRot = 6;
+                nCharacterRotDeg = 270;
+                mainCharacter.setCharacterVelocity(-1, 0);
+            } else if (touchpad.getKnobPercentY() > .75) {
+                nCharacterRot = 4;
+                nCharacterRotDeg = 180;
+                mainCharacter.setCharacterVelocity(0, 1);
+            } else if (touchpad.getKnobPercentY() < -.75) {
+                nCharacterRot = 5;
+                nCharacterRotDeg = 0;
+                mainCharacter.setCharacterVelocity(0, -1);
+            }
         }
         if (touchpad.getKnobPercentY() > -.75 && touchpad.getKnobPercentY() < .75 && touchpad.getKnobPercentX() > -.75 && touchpad.getKnobPercentX() < .75) {// this part checks if the touchpad is in the center then sets the animation to the standing still
             mainCharacter.setCharacterVelocity(0, 0);
@@ -361,16 +365,14 @@ public class Controls implements ApplicationListener {
         if (mainCharacter.nShieldTimer > 100 && mainCharacter.nShieldTimer < 400) {
             sbBatch.draw(tX, nSWidth - (nSWidth * 300 / 1794), (nSHeight * 200 / 1080), nSWidth * 200 / 1794, nSHeight * 200 / 1080);
         }
-        if(bTransition){
-            sbBatch.draw(tTransition,0,0,nSWidth,nSHeight);
+        if (bTransition) {
+            sbBatch.draw(tTransition, 0, 0, nSWidth, nSHeight);
             nTransitionTimer++;
-            if(nTransitionTimer==200){
-                bTransition=false;
-                nTransitionTimer=0;
+            if (nTransitionTimer == 100) {
+                bTransition = false;
+                nTransitionTimer = 0;
             }
         }
-
-
 
 
         sbBatch.end();

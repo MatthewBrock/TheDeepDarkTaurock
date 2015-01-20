@@ -32,10 +32,10 @@ public class Map implements ApplicationListener {
         tiledMap = new TmxMapLoader().load("Map" + nMapNumber + ".tmx");
         arclCollisionLayer = new TiledMapTileLayer[tiledMap.getLayers().getCount()];//The collision layer is used to get tile IDs
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, nMapScale);//Set the render to the map and scale it
-
         for (int i = 0; i < tiledMap.getLayers().getCount(); i++) {//Put all the layers from the map into the collision layer array
             arclCollisionLayer[i] = (TiledMapTileLayer) tiledMap.getLayers().get(i);
         }
+       // System.out.println(arclCollisionLayer[1].getTileHeight());
 
     }
 

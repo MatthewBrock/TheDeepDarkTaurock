@@ -74,6 +74,7 @@ public class CharacterSelect extends Game {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameScreen.mainCharacter.setCharacter("Riffy");
+                gameScreen.mainCharacter.reset();
                 screenControl.setnScreen(3);
                 return true;
             }
@@ -88,6 +89,7 @@ public class CharacterSelect extends Game {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameScreen.mainCharacter.setCharacter("BadLuck");
+                gameScreen.mainCharacter.reset();
                 screenControl.setnScreen(3);
                 return true;
             }
