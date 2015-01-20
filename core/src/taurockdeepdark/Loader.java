@@ -23,13 +23,10 @@ public class Loader extends Game {
         file = Gdx.files.local("save.json");
         character = new Character();
         json = new Json();
-
     }
-
 
     public void setMainCharacter(MainCharacter mainCharacter_) {
         mainCharacter = mainCharacter_;
-
     }
 
     public void save() {
