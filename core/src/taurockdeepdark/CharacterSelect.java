@@ -48,14 +48,14 @@ public class CharacterSelect extends Game {
         font.setScale(nSWidth * 3 / 1794, nSHeight * 3 / 1080);
         stage = new Stage(){//http://gamedev.stackexchange.com/questions/28442/handle-input-processor-in-device-back-button-and-button-as-actor
             @Override
-            public boolean keyDown(int keyCode) {
+            public boolean keyDown(int keyCode) {// use the back button to change the screen
                 if (keyCode == Input.Keys.BACK) {
                     screenControl.setnScreen(1);
                 }
                 return super.keyDown(keyCode);
             }
         };
-        tBack = new Texture(Gdx.files.internal("MenuBack.png"));
+        tBack = new Texture(Gdx.files.internal("MenuBack.png"));// setting up the buttons
         tRiffy = new Texture(Gdx.files.internal("Riffy1.png"));
         tBadLuck = new Texture(Gdx.files.internal("BadLuck1.png"));
 
@@ -101,7 +101,7 @@ public class CharacterSelect extends Game {
 
     @Override
     public void render() {
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(stage);//lets this stage get inputs
         sbBatch.begin();
         sbBatch.draw(tBack, 0, 0, nSWidth, nSHeight);
         sbBatch.draw(tRiffy, nSWidth / 2 - nSWidth * 300 / 1794 / 2 + nSWidth * 400 / 1794, nSHeight / 2 - nSHeight * 250 / 1080, nSWidth * 300 / 1794, nSHeight * 400 / 1080);

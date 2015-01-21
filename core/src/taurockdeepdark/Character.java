@@ -3,6 +3,7 @@ package taurockdeepdark;
 /**
  * Created by Matthew Brock on 19/01/2015.
  */
+//this class is used for saving
 public class Character {
     float fX=0;
     float fY=0;

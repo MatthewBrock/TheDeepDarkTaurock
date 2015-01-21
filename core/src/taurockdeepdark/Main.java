@@ -47,8 +47,8 @@ public class Main extends Game {//http://stackoverflow.com/questions/24551605/li
     }
 
     @Override
-    public void render() {
-        if (!gameScreen.mainCharacter.bBGsong) {
+    public void render() {//controls which screen is rendered
+        if (!gameScreen.mainCharacter.bBGsong) {//used for an easter egg that switches the song
             BGsong.stop();
         }
         nScreen = screenControl.nScreen;

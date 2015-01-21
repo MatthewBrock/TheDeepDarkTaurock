@@ -159,7 +159,7 @@ public class MainCharacter implements ApplicationListener {
     public boolean getTileID(float fX, float fY, float nWidth, String sID) {// this is slightly complicated but its basically grabbing the tile that the character is standing on and getting the ID
         boolean bCollided = false;
         for (nLayerCount = 0; nLayerCount < armMaps[nCurrentMap].tiledMap.getLayers().getCount(); nLayerCount++) {
-            try {
+            try {//There isn't always a tile ID so this stops the error for that
                 bCollided = armMaps[nCurrentMap].arclCollisionLayer[nLayerCount].getCell((int) ((fX + nWidth / 4) / tileWidth), (int) (fY / tileHeight))
                         .getTile().getProperties().containsKey(sID);
 
@@ -220,7 +220,7 @@ public class MainCharacter implements ApplicationListener {
         }
 
 
-        if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "Egg")) {
+        if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "Egg")) {//used for an easter egg
             nSongTimer++;
             if (nSongTimer == 300) {
                 bBGsong = false;
@@ -229,7 +229,7 @@ public class MainCharacter implements ApplicationListener {
         } else {
             nSongTimer = 0;
         }
-        if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "Egg2")) {
+        if (getTileID(fCharacterX, fCharacterY, fCharacterWidth, "Egg2")) {// used for an easter egg
             nTimerX++;
             if (nTimerX == 600) {
                 nCurrentMap += 1;
@@ -279,7 +279,7 @@ public class MainCharacter implements ApplicationListener {
 
         spSword.setRotation(nCharacterRotationDeg + 180);
 
-        if (nCharacterRotationDeg == 90) {
+        if (nCharacterRotationDeg == 90) {//controls where the sword is rendered and if the sword is on top of the character
             sbSpriteBatch.draw(araWalking[nCharacterRotation].getKeyFrame(stateTime, true), fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight);//Drawing the animation from the array of animations based on the character rotation
             spSword.setPosition(fCharacterX, fCharacterY + fCharacterHeight / 4);
             if (bSword) {
