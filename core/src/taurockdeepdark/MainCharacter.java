@@ -24,11 +24,11 @@ public class MainCharacter implements ApplicationListener {
     Controls controls;
     OrthographicCamera camera;
     float fCharacterVelocityX = 0, fCharacterVelocityY = 0, fCharacterX, fCharacterY, fCharacterWidth, fCharacterHeight;
-    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 3, nVelocityX, nVelocityY, nShieldTimer, nSwordTimer, nHp = 5, nMp = 5, nMpTimer, nSongTimer, nTimerX;
+    int nSHeight, nSWidth, nCharacterRotation = 1, nCharacterRotationDeg = 0, nLayerCount, nCurrentMap = 3, nVelocityX, nVelocityY, nShieldTimer, nSwordTimer, nHp = 5, nMp = 5, nMpTimer, nSongTimer, nTimerX, timerSpawn = 0;
     Animation[] araWalking;
     ArrayList<FireBall> arlFireBalls;
     ArrayList<Enemy> arlEnemy;
-    Texture tTemp, tFireBall, tShield, tSword;
+    Texture tTemp, tFireBall, tShield, tSword, tEnemy;
     Sprite spSword;
     SpriteBatch sbSpriteBatch;
     Music SpookySong;
@@ -81,8 +81,16 @@ public class MainCharacter implements ApplicationListener {
         arlFireBalls.add(new FireBall(tFireBall, fCharacterX + (fCharacterWidth / 8), fCharacterY + (fCharacterHeight / 8), nCharacterRotationDeg, camera));
     }
 
+    public void makeEnemy() {//This makes a new enemy
+        arlEnemy.add(new Enemy(tEnemy, nCharacterRotationDeg, camera, armMaps));
+    }
+
     public ArrayList<FireBall> getFireballs() {
         return arlFireBalls;
+    }
+
+    public ArrayList<Enemy> getEnemy() {
+        return arlEnemy;
     }
 
     public void setCharacter(String sName_) {//takes the name of the chosen character then builds the animation for that character
@@ -113,11 +121,13 @@ public class MainCharacter implements ApplicationListener {
         tFireBall = new Texture(Gdx.files.internal("FireBall.png"));
         tShield = new Texture(Gdx.files.internal("Shield.png"));
         tSword = new Texture(Gdx.files.internal("FireSword.png"));
+        tEnemy = new Texture(Gdx.files.internal("Ghost1.png"));
         spSword = new Sprite(tSword);
         spSword.setSize(nSWidth * 40 / 1794, nSHeight * 175 / 1080);
         spSword.setOrigin(spSword.getWidth() / 2, 0);
         araWalking = new Animation[8];//array of animations
         arlFireBalls = new ArrayList<FireBall>();
+        arlEnemy = new ArrayList<Enemy>();
         sbSpriteBatch = new SpriteBatch();//use to draw multiple sprites at once apparently better
         stateTime = 0f;
         tileWidth = armMaps[nCurrentMap].nMapScale * (armMaps[nCurrentMap].arclCollisionLayer[0].getTileWidth());//Grabbing the tile width for the tiledMap
@@ -185,7 +195,11 @@ public class MainCharacter implements ApplicationListener {
                 nMpTimer = 0;
             }
         }
-
+        timerSpawn++; // the spawn rate of the enemies
+        if (timerSpawn == 75) {
+            makeEnemy();
+            timerSpawn = 0;
+        }
         camera.update();
 
 
@@ -309,6 +323,12 @@ public class MainCharacter implements ApplicationListener {
 
 
         sbSpriteBatch.end();
+        for (int i = 0; i < arlEnemy.size(); i++) { //This renders the enemies
+            arlEnemy.get(i).setFx(getCharacterX());
+            arlEnemy.get(i).setFy(getCharacterY());
+            arlEnemy.get(i).render();
+
+        }
         for (int i = 0; i < arlFireBalls.size(); i++) {//This renders all the fireballs
             arlFireBalls.get(i).render();
             if (arlFireBalls.get(i).bounds(tileWidth, tileHeight)) {

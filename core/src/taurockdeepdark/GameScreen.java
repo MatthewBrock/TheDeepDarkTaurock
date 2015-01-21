@@ -13,7 +13,6 @@ public class GameScreen extends Game {
     Loader loader;
     OrthographicCamera camera;
     MainCharacter mainCharacter;
-    Enemy ghost;
     Controls controls;
     int nNumberOfMaps = 5;
     Map[] armMaps;
@@ -25,14 +24,7 @@ public class GameScreen extends Game {
         armMaps[mainCharacter.nCurrentMap].render();
         mainCharacter.render();
         controls.render();
-        ghost.setFx(mainCharacter.getCharacterX());
-        ghost.setFy(mainCharacter.getCharacterY());
-        ghost.setSword(mainCharacter.getSword());
-        ghost.setShield(mainCharacter.getShield());
-        if(bLiving){
-            ghost.render();
-        }
-        bLiving = ghost.getLive();
+
 
     }
     public void setLoader(Loader loader_){
@@ -61,11 +53,6 @@ public class GameScreen extends Game {
         mainCharacter.create();
         loader.create();
         loader.setMainCharacter(mainCharacter);
-        ghost = new Enemy();
-        ghost.setMainCharacter(mainCharacter);
-        ghost.setMaps(armMaps);
-        ghost.setCamera(camera);
-        ghost.create();
         controls.create();
         controls.create();
     }
